@@ -1,6 +1,9 @@
 const app = require('./app.js');
 const passwordHash = require('password-hash');
+const multer = require('multer');
+const path = require('path');
 const pool = require('./pool.js');
+const fs = require('fs');
 
 const port = process.env.PORT || 3001;
 var server = app.listen(port, () => {
@@ -18,18 +21,14 @@ app.post('/login', (req, res) => {
       res.send("Error in Data");
     }
     if (result && result.length > 0 && result[0][0].status) {
-      if(passwordHash.verify(req.body.password, result[0][0].password)){
-        if(result[0][0].is_owner){
-          res.cookie('ownercookie', req.body.email_id, { maxAge: 900000, httpOnly: false, path: '/' });
-        }
-        else{
-          res.cookie('customercookie', req.body.email_id, { maxAge: 900000, httpOnly: false, path: '/' });
-        }
+      if (passwordHash.verify(req.body.password, result[0][0].password)) {
+        res.cookie('cookie', result[0][0].user_id, { maxAge: 9000000, httpOnly: false, path: '/' });
         req.session.user = req.body.email_id;
+        let userObject = { user_id: result[0][0].user_id, name: result[0][0].name, email_id: result[0][0].email_id, is_owner: result[0][0].is_owner };
         res.writeHead(200, {
           'Content-Type': 'text/plain'
         })
-        res.end("Successful Login");
+        res.end(JSON.stringify(userObject));
       }
       else {
         res.writeHead(401, {
@@ -38,7 +37,7 @@ app.post('/login', (req, res) => {
         res.end("Password Incorrect");
       }
     }
-    else{
+    else {
       res.writeHead(401, {
         'Content-Type': 'text/plain'
       })
@@ -58,14 +57,13 @@ app.post('/signup', (req, res) => {
       });
       res.end("Error in Data");
     }
-    console.log(result);
     if (result && result.length > 0 && result[0][0].status === 'USER_ADDED') {
       res.writeHead(200, {
         'Content-Type': 'text/plain'
       })
       res.end("User added");
     }
-    else if(result && result.length > 0 && result[0][0].status === 'USER_EXISTS'){
+    else if (result && result.length > 0 && result[0][0].status === 'USER_EXISTS') {
       res.writeHead(401, {
         'Content-Type': 'text/plain'
       })
@@ -91,7 +89,7 @@ app.post('/ownersignup', (req, res) => {
       });
       res.end("User added");
     }
-    else if(result && result.length > 0 && result[0][0].status === 'USER_EXISTS'){
+    else if (result && result.length > 0 && result[0][0].status === 'USER_EXISTS') {
       res.writeHead(401, {
         'Content-Type': 'text/plain'
       });
@@ -100,9 +98,8 @@ app.post('/ownersignup', (req, res) => {
   });
 });
 
-app.get('/userget', (req, res) => {
-  let sql = `CALL User_get(NULL, '${req.body.email_id}');`;
-
+app.post('/userget', (req, res) => {
+  let sql = `CALL User_get('${req.body.user_id}', NULL);`;
   pool.query(sql, (err, result) => {
     if (err) {
       res.writeHead(500, {
@@ -114,13 +111,13 @@ app.get('/userget', (req, res) => {
       res.writeHead(200, {
         'Content-Type': 'text/plain'
       });
-      res.end(JSON.stringify(result[0][0]));
+      res.end(JSON.stringify(result[0]));
     }
   });
 });
 
-app.get('/restaurantget', (req, res) => {
-  let sql = `CALL Restaurant_Owner_get(NULL, '${req.body.email_id}', NULL);`;
+app.post('/restaurantget', (req, res) => {
+  let sql = `CALL Restaurant_Owner_get('${req.body.user_id}', NULL, NULL);`;
 
   pool.query(sql, (err, result) => {
     if (err) {
@@ -133,17 +130,22 @@ app.get('/restaurantget', (req, res) => {
       res.writeHead(200, {
         'Content-Type': 'text/plain'
       });
-      res.end(JSON.stringify(result[0][0]));
+      res.end(JSON.stringify(result[0]));
     }
   });
 });
 
 app.post('/customerupdate', (req, res) => {
-  var hashedPassword = passwordHash.generate(req.body.password);
-  let sql = `CALL Customer_update(NULL, '${req.body.email_id}', '${req.body.name}', '${hashedPassword}', '${req.body.address}', '${req.body.phone_number}', '${req.body.user_image}' );`;
-
+  if (req.body.password === "") {
+    var hashedPassword = "NULL";
+  }
+  else {
+    var hashedPassword = "'" + passwordHash.generate(req.body.password) + "'";
+  }
+  let sql = `CALL Customer_update('${req.body.user_id}', '${req.body.email_id}', '${req.body.name}', ${hashedPassword}, '${req.body.address}', '${req.body.phone_number}', '${req.body.user_image}' );`;
   pool.query(sql, (err, result) => {
     if (err) {
+      console.log(err);
       res.writeHead(500, {
         'Content-Type': 'text/plain'
       });
@@ -155,7 +157,7 @@ app.post('/customerupdate', (req, res) => {
       });
       res.end("Customer updated");
     }
-    else if(result && result.length > 0 && result[0][0].status === 'NO_RECORD'){
+    else if (result && result.length > 0 && result[0][0].status === 'NO_RECORD') {
       res.writeHead(401, {
         'Content-Type': 'text/plain'
       });
@@ -165,11 +167,16 @@ app.post('/customerupdate', (req, res) => {
 });
 
 app.post('/restaurantupdate', (req, res) => {
-  var hashedPassword = passwordHash.generate(req.body.password);
-  let sql = `CALL Restaurant_Owner_update(NULL, '${req.body.email_id}', '${req.body.name}', '${req.body.res_name}', '${req.body.res_cuisine}', '${hashedPassword}', '${req.body.res_zip_code}', '${req.body.address}', '${req.body.phone_number}', '${req.body.user_image}' );`;
-
+  if (req.body.password === "") {
+    var hashedPassword = "NULL";
+  }
+  else {
+    var hashedPassword = "'" + passwordHash.generate(req.body.password) + "'";
+  }
+  let sql = `CALL Restaurant_Owner_update(NULL, '${req.body.email_id}', '${req.body.name}', '${req.body.res_name}', '${req.body.res_cuisine}', ${hashedPassword}, '${req.body.res_zip_code}', '${req.body.address}', '${req.body.phone_number}', '${req.body.user_image}' );`;
   pool.query(sql, (err, result) => {
     if (err) {
+      console.log(err);
       res.writeHead(500, {
         'Content-Type': 'text/plain'
       });
@@ -181,7 +188,7 @@ app.post('/restaurantupdate', (req, res) => {
       });
       res.end("Restaurant Updated");
     }
-    else if(result && result.length > 0 && result[0][0].status === 'NO_RECORD'){
+    else if (result && result.length > 0 && result[0][0].status === 'NO_RECORD') {
       res.writeHead(401, {
         'Content-Type': 'text/plain'
       });
@@ -190,7 +197,7 @@ app.post('/restaurantupdate', (req, res) => {
   });
 });
 
-app.post('/restaurantitemsget', (req, res) => {
+app.get('/restaurantitemsget', (req, res) => {
 
   let sql = `CALL Restaurant_Item_get(NULL, '${req.body.email_id}', NULL, NULL, NULL);`;
   pool.query(sql, (err, result) => {
@@ -204,7 +211,64 @@ app.post('/restaurantitemsget', (req, res) => {
       res.writeHead(200, {
         'Content-Type': 'text/plain'
       });
-      res.end(JSON.stringify(result[0][0]));
+      res.end(JSON.stringify(result[0]));
     }
   });
+});
+
+app.get('/restaurantsearch', (req, res) => {
+
+  let sql = `CALL Search_Result_get('${req.body.search_input}');`;
+  pool.query(sql, (err, result) => {
+    if (err) {
+      res.writeHead(500, {
+        'Content-Type': 'text/plain'
+      });
+      res.end("Error in Data");
+    }
+    if (result && result.length > 0 && result[0][0]) {
+      res.writeHead(200, {
+        'Content-Type': 'text/plain'
+      });
+      res.end(JSON.stringify(result[0]));
+    }
+  });
+});
+
+//Image Upload
+const storage = multer.diskStorage({
+  destination: "./public/uploads",
+  filename: (req, file, cb) => {
+    cb(null, 'user' + req.params.user_id + path.extname(file.originalname));
+  }
+});
+
+const uploads = multer({
+  storage: storage,
+  limits: { fileSize: 500000 },
+}).single("image");
+
+app.post("/uploads/:user_id", (req, res) => {
+  uploads(req, res, function (err) {
+    if (!err) {
+      return res.sendStatus(200).end();
+    }
+    else {
+      console.log('Error!');
+    }
+  })
+});
+
+app.get('/userimage/:user_id', (req, res) => {
+  var image = __dirname + '/public/uploads/user' + req.params.user_id;
+  console.log(image);
+  if (fs.existsSync(image + '.jpg')) {
+    res.sendFile(image + '.jpg');
+  }
+  else if (fs.existsSync(image + '.png')) {
+    res.sendFile(image + '.png');
+  }
+  else{
+    res.sendFile(__dirname + '/public/uploads/placeholder.png')
+  }
 });

@@ -2,23 +2,33 @@ import React, { Component } from 'react';
 import '../../App.css';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
-import Navbar from '../Navbar.js';
-import CustomerProfile from './CustomerProfile.js';
-import OwnerProfile from './OwnerProfile.js';
+import Navbar from '../Navbar';
+import CustomerProfile from './CustomerProfile';
+import OwnerProfile from './OwnerProfile';
+import ImageUploader from '../ImageUploader';
 
 class Profile extends Component {
     render() {
         let profileComponent = null;
-        if (cookie.load('customercookie')) {
-            profileComponent = <CustomerProfile />
+        let redirectVar = null;
+        if (cookie.load('cookie')) {
+            if (localStorage.getItem("is_owner") === "1")
+                profileComponent = <OwnerProfile />
+            else
+                profileComponent = <CustomerProfile />
         }
-        if (cookie.load('ownercookie')) {
-            profileComponent = <OwnerProfile />
+        else {
+            redirectVar = <Redirect to="/" />
         }
         return (
             <div>
-                <Navbar /><br/><br/><br/>
-                {profileComponent}
+                {redirectVar}
+                <Navbar /><br />
+                <div>
+                    <ImageUploader />
+                </div><br/>
+                <div>{profileComponent}</div>
+
             </div>
         )
     }

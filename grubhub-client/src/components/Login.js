@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 import cookie from 'react-cookies';
-import grubhubLoginImage from '../images/GrubhubLoginImage.png'
+import grubhubLoginImage from '../images/GrubhubLoginImage.png';
 
 class Login extends Component {
     //call the constructor method
@@ -15,18 +15,11 @@ class Login extends Component {
         this.state = {
             username: "",
             password: "",
-            authFlag: false,
+            name: "",
+            user_id: "",
+            is_owner: "",
             errorMessage: ""
         }
-        //Bind the handlers to this class
-        //this.onChange = this.onChange.bind(this);
-        //this.onSubmit = this.onSubmit.bind(this);
-    }
-    //Call the Will Mount to set the auth Flag to false
-    componentWillMount() {
-        this.setState({
-            authFlag: false
-        })
     }
 
     onChange = (e) => {
@@ -51,20 +44,20 @@ class Login extends Component {
         axios.post('http://localhost:3001/login', data)
             .then(response => {
                 if (response.status === 200) {
-                    this.setState({
-                        authFlag: true
-                    })
-                }
-                else {
-                    this.setState({
-                        authFlag: false
-                    })
+                    if (response.data){
+                        this.setState({
+                            name: response.data.name,
+                            is_owner: response.data.is_owner,
+                            user_id: response.data.user_id,
+                            email_id: response.data.email_id
+                        });
+                        console.log(data);
+                    }
                 }
             })
             .catch(error => {
-                if(error.response.data){
+                if (error.response && error.response.data) {
                     this.setState({
-                        authFlag: false,
                         message: error.response.data
                     });
                 }
@@ -73,7 +66,12 @@ class Login extends Component {
 
     render() {
         let redirectVar = null;
-        if (cookie.load('ownercookie') || cookie.load('customercookie')) {
+        if (cookie.load('cookie')) {
+            console.log("Reached redirect cookie");
+            localStorage.setItem("email_id", this.state.email_id);
+            localStorage.setItem("is_owner", this.state.is_owner);
+            localStorage.setItem("user_id", this.state.user_id);
+            localStorage.setItem("name", this.state.name);
             redirectVar = <Redirect to="/home" />
         }
         return (

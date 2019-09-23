@@ -9,14 +9,19 @@ import OwnerOrders from './OwnerOrders.js';
 class Orders extends Component {
     render() {
         let ordersComponent = null;
-        if (cookie.load('customercookie')) {
-            ordersComponent = <CustomerOrders />
+        let redirectVar = null;
+        if (cookie.load('cookie')) {
+            if (localStorage.getItem("is_owner") === "1")
+                ordersComponent = <OwnerOrders/>
+            else
+                ordersComponent = <CustomerOrders />
         }
-        if (cookie.load('ownercookie')) {
-            ordersComponent = <OwnerOrders />
+        else {
+            redirectVar = <Redirect to="/" />
         }
         return (
             <div>
+                {redirectVar}
                 <Navbar /><br/><br/><br/>
                 {ordersComponent}
             </div>

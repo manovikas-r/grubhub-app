@@ -59,7 +59,7 @@ class OwnerSignup extends Component {
                 }
             })
             .catch(error => {
-                if(error.response.data){
+                if(error.response && error.response.data){
                     this.setState({
                         message: error.response.data
                     });
@@ -68,9 +68,8 @@ class OwnerSignup extends Component {
     }
 
     render() {
-        //redirect based on successful signup
         let redirectVar = null;
-        if (cookie.load('ownercookie')) {
+        if (cookie.load('cookie')) {
             redirectVar = <Redirect to="/Home" />
         }
         else if (this.state.signupFlag) {

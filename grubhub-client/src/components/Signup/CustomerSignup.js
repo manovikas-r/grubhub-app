@@ -54,7 +54,7 @@ class CustomerSignup extends Component {
                 }
             })
             .catch(error => {
-                if(error.response.data){
+                if(error.response && error.response.data){
                     this.setState({
                         message: error.response.data
                     });
@@ -65,7 +65,7 @@ class CustomerSignup extends Component {
     render() {
         //redirect based on successful signup
         let redirectVar = null;
-        if (cookie.load('customercookie')) {
+        if (cookie.load('cookie')) {
             redirectVar = <Redirect to="/Home" />
         }
         else if (this.state.signupFlag) {

@@ -9,11 +9,9 @@ class Navbar extends Component {
 
     //handle logout to destroy the cookie
     handleLogout = () => {
-        if (cookie.load("customercookie")) {
-            cookie.remove("customercookie", { path: "/" });
-        }
-        else if (cookie.load("ownercookie")) {
-            cookie.remove("ownercookie", { path: "/" });
+        if (cookie.load("cookie")) {
+            cookie.remove("cookie", { path: "/" });
+            localStorage.clear();
         }
     };
 
@@ -24,8 +22,10 @@ class Navbar extends Component {
         let navProfile = null;
         let navOrders = null;
         let loginLink = null;
+        let userMsg = null;
 
-        if (cookie.load("customercookie") || cookie.load("ownercookie")) {
+        if (cookie.load("cookie")) {
+            userMsg = "Hi, " + localStorage.getItem("name");
             loginLink = <Link to="/" class="nav-link" onClick={this.handleLogout}>Logout</Link>;
         }
         else {
@@ -61,49 +61,50 @@ class Navbar extends Component {
         );
 
         navOrders = (
-            <ul class="nav navbar-nav navbar-right">
-                <li class="nav-item">
-                    <Link to="/orders" class="nav-link" href="#">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item">
+                    <Link to="/orders" class="nav-link" href="#">
                         Orders
                     </Link>
                 </li>
             </ul>
         );
 
-        if (cookie.load("ownercookie")){
-            navUser = (
-                <div class="collapse navbar-collapse navbar-right" id="navbarNav">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item">
-                            <Link to="/updatemenu" class="nav-link" href="#">
-                                Menu
+        if (cookie.load("cookie")) {
+            if (localStorage.getItem("is_owner") === "1") {
+                navUser = (
+                    <div class="collapse navbar-collapse navbar-right" id="navbarNav">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item">
+                                <Link to="/updatemenu" class="nav-link" href="#">
+                                    Menu
+                                </Link>
+                            </li>
+                        </ul>
+                        {navOrders}
+                        {navProfile}
+                        {navLogin}
+                    </div>
+                );
+            }
+            else {
+                navUser = (
+                    <div class="collapse navbar-collapse navbar-right" id="navbarNav">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item">
+                                <Link to="/cart" class="nav-link" href="#">
+                                    Cart
                             </Link>
-                        </li>
-                    </ul>
-                    {navOrders}
-                    {navProfile}
-                    {navLogin}
-                </div>
-            );
-        } 
-        else if(cookie.load("customercookie")) {
-            navUser = (
-                <div class="collapse navbar-collapse navbar-right" id="navbarNav">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item">
-                            <Link to="/cart" class="nav-link" href="#">
-                                Cart
-                            </Link>
-                        </li>
-                    </ul>
-                    {navOrders}
-                    {navProfile}
-                    {navLogin}
-                </div>
-            );
+                            </li>
+                        </ul>
+                        {navOrders}
+                        {navProfile}
+                        {navLogin}
+                    </div>
+                );
+            }
         }
-        else
-        {
+        else {
             navUser = (
                 <div class="collapse navbar-collapse navbar-right" id="navbarNav">
                     {navLogin}
@@ -115,6 +116,7 @@ class Navbar extends Component {
             <div>
                 <nav class="navbar navbar-expand-lg navbar-dark  bg-dark">
                     {navLogo}
+                    {userMsg}
                     {navUser}
                 </nav>
             </div>

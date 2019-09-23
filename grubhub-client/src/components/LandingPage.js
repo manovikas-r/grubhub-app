@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import '../App.css';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
-import Navbar from './Navbar.js'
+import Navbar from './Navbar'
 import grubhubLoginImage from '../images/GrubhubLoginImage.png'
 
 class LandingPage extends Component {
     render() {
         let redirectVar = null;
-        if (cookie.load('ownercookie') || cookie.load('customercookie')) {
+        if (cookie.load('cookie')) {
             redirectVar = <Redirect to="/home" />
         }
         return (

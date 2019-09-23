@@ -34,4 +34,6 @@ app.use(session({
   activeDuration      :  5 * 60 * 1000
 }));
 
+app.use(express.static('./public'));
+
 module.exports = app;
