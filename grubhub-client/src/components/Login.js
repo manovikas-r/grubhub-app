@@ -5,6 +5,7 @@ import '../App.css';
 import axios from 'axios';
 import cookie from 'react-cookies';
 import grubhubLoginImage from '../images/GrubhubLoginImage.png';
+import { Container, Row, Image, Col, Form, Jumbotron, Button, ButtonGroup } from 'react-bootstrap';
 
 class Login extends Component {
     //call the constructor method
@@ -13,7 +14,6 @@ class Login extends Component {
         super(props);
         //maintain the state required for this component
         this.state = {
-            username: "",
             password: "",
             name: "",
             user_id: "",
@@ -41,10 +41,10 @@ class Login extends Component {
         axios.defaults.withCredentials = true;
         //make a post request with the user data
 
-        axios.post('http://localhost:3001/login', data)
+        axios.post('http://localhost:3001/grubhub/login', data)
             .then(response => {
                 if (response.status === 200) {
-                    if (response.data){
+                    if (response.data) {
                         this.setState({
                             name: response.data.name,
                             is_owner: response.data.is_owner,
@@ -77,27 +77,34 @@ class Login extends Component {
         return (
             <div>
                 {redirectVar}
-                <img src={grubhubLoginImage} style={{ height: 'fit-content', width: '60%' }} alt='GrubHub' />
-                <div class="container">
-                    <div class="login-form">
-                        <div class="main-div">
-                            <div class="panel">
-                                <h2>Signin with your Grubhub account</h2>
+                <div>
+                    <Row>
+                        <Col>
+                            <img src={grubhubLoginImage} style={{ height: 'fit-content', width: '100%' }} alt='GrubHub' />
+                        </Col>
+                        <Col>
+                            <div>
+                                <div class="login-form">
+                                    <div class="main-div">
+                                        <div class="panel">
+                                            <h2>Signin with your Grubhub account</h2>
+                                        </div>
+                                        <form onSubmit={this.onSubmit}>
+                                            <div style={{ color: "#ff0000" }}>{this.state.message}</div><br />
+                                            <div class="form-group">
+                                                <input type="email" class="form-control" onChange={this.onChange} name="email_id" placeholder="Email Id" pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$" title="Please enter valid email address" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" onChange={this.onChange} name="password" placeholder="Password" required />
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Signin</button><br /><br />
+                                            <div><Link to="/signup">Create new account</Link></div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                            <form onSubmit={this.onSubmit}>
-                                <div style={{ color: "#ff0000" }}>{this.state.message}</div><br />
-                                <div class="form-group">
-                                    <input type="email" class="form-control" onChange={this.onChange} name="email_id" placeholder="Email Id" pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$" title="Please enter valid email address" required />
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" onChange={this.onChange} name="password" placeholder="Password" required />
-                                </div>
-                                <button type="submit" class="btn btn-primary">Signin</button><br /><br />
-
-                                <div><Link to="/signup">Create new account</Link></div>
-                            </form>
-                        </div>
-                    </div>
+                        </Col>
+                    </Row>
                 </div>
             </div>
         )

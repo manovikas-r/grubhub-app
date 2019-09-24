@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import cookie from 'react-cookies';
 import { Link } from "react-router-dom";
-import ImageUploader from "../ImageUploader"
+import ImageUploader from "../ImageUploader";
+import { Container, Row, Col, Form, Button, ButtonGroup } from 'react-bootstrap';
+import NavbarCollapse from 'react-bootstrap/NavbarCollapse';
 
 class CustomerProfile extends Component {
     constructor(props) {
@@ -11,8 +13,7 @@ class CustomerProfile extends Component {
             user_id: "",
             name: "",
             email_id: "",
-            password: "",
-            user_image: ""
+            password: ""
         };
         this.onChange = this.onChange.bind(this);
         this.onUpdate = this.onUpdate.bind(this);
@@ -23,13 +24,12 @@ class CustomerProfile extends Component {
             user_id: localStorage.getItem("user_id")
         };
 
-        axios.post("http://localhost:3001/userget", data)
+        axios.post("http://localhost:3001/grubhub/profile/customerget", data)
             .then(response => {
                 this.setState({
                     user_id: response.data[0].user_id,
                     name: response.data[0].name,
                     email_id: response.data[0].email_id,
-                    user_image: response.data[0].user_image,
                     address: response.data[0].address,
                     phone_number: response.data[0].phone_number
                 });
@@ -54,9 +54,11 @@ class CustomerProfile extends Component {
             address: this.state.address,
             phone_number: this.state.phone_number
         };
-        axios.post("http://localhost:3001/customerupdate", data)
+        axios.post("http://localhost:3001/grubhub/profile/customer", data)
             .then(response => {
                 console.log(response);
+                localStorage.setItem("name", data.name);
+                alert("Profile updated successfully!");
             })
             .catch(error => {
                 console.log(error);
@@ -72,66 +74,73 @@ class CustomerProfile extends Component {
     render() {
         return (
             <div>
-                <h2>Customer Profile</h2>
-                <form onSubmit={this.onUpdate}>
-                        <div className="form-group">
-                            <label htmlFor="name">Name</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="name"
-                                onChange={this.onChange}
-                                value={this.state.name}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                className="form-control"
-                                name="email_id"
-                                value={this.state.email_id}
-                                disabled
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="password">Change Password</label>
-                            <input
-                                type="password"
-                                className="form-control"
-                                name="password"
-                                onChange={this.onChange}
-                                placeholder = "New Password"
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="address">Address</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="address"
-                                onChange={this.onChange}
-                                value={this.state.address}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="phone_number">Phone Number</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="phone_number"
-                                onChange={this.onChange}
-                                value={this.state.phone_number}
-                            />
-                        </div>
-                        <button type="submit" className="col-sm-12 btn btn-primary">
-                            Update
-                        </button>
-                        <Link to="/home">
-                            <button className="col-sm-12 btn btn-primary">cancel</button>
-                        </Link>
+                <Container fluid={true}>
+                    <Col>
+                        <h4>Profile</h4>
+                        <br />
+                        <Form onSubmit={this.onUpdate} >
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="name">
+                                    <Form.Label>Name</Form.Label>
+                                    <Form.Control name="name"
+                                        type="text"
+                                        onChange={this.onChange}
+                                        value={this.state.name}
+                                        required={true} />
+                                </Form.Group>
+                            </Form.Row>
 
-                </form>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="email_id">
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control type="email"
+                                        name="email_id"
+                                        value={this.state.email_id}
+                                        disabled />
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="RB.password">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control type="password"
+                                        name="password"
+                                        onChange={this.onChange}
+                                        placeholder="New Password" />
+                                </Form.Group>
+                            </Form.Row>
+
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="formGridCity">
+                                    <Form.Label>Address</Form.Label>
+                                    <Form.Control type="text"
+                                        name="address"
+                                        onChange={this.onChange}
+                                        value={this.state.address}
+                                        required={true} />
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="formGridZip">
+                                    <Form.Label>Phone Number</Form.Label>
+                                    <Form.Control type="text"
+                                        name="phone_number"
+                                        onChange={this.onChange}
+                                        value={this.state.phone_number}
+                                        required={true}
+                                    />
+                                </Form.Group>
+                            </Form.Row>
+                            <ButtonGroup aria-label="Third group">
+                                <Button type="submit">
+                                    Update Details</Button>
+                            </ButtonGroup>
+
+                            <ButtonGroup aria-label="Fourth group">
+                                <Link to="/home"><Button variant="warning">Cancel</Button></Link>
+                            </ButtonGroup>
+                        </Form>
+                    </Col>
+                </Container>
             </div>
         )
     }

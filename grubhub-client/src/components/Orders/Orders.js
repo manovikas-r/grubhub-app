@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../App.css';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
-import Navbar from '../Navbar.js';
+import Navigationbar from '../Navigationbar.js';
 import CustomerOrders from './CustomerOrders.js';
 import OwnerOrders from './OwnerOrders.js';
 
@@ -22,7 +22,7 @@ class Orders extends Component {
         return (
             <div>
                 {redirectVar}
-                <Navbar /><br/><br/><br/>
+                <Navigationbar /><br/>
                 {ordersComponent}
             </div>
         )

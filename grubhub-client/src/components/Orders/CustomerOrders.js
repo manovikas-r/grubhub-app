@@ -8,7 +8,7 @@ class CustomerOrders extends Component {
     render() {
         return (
             <div>
-                Customer Orders
+                <h3>Customer Orders</h3>
             </div>
         )
     }

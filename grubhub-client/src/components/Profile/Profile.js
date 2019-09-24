@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import '../../App.css';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
-import Navbar from '../Navbar';
+import Navigationbar from '../Navigationbar';
 import CustomerProfile from './CustomerProfile';
 import OwnerProfile from './OwnerProfile';
 import ImageUploader from '../ImageUploader';
+import { Container, Row, Col } from 'react-bootstrap';
 
 class Profile extends Component {
     render() {
@@ -23,12 +24,17 @@ class Profile extends Component {
         return (
             <div>
                 {redirectVar}
-                <Navbar /><br />
-                <div>
-                    <ImageUploader />
-                </div><br/>
-                <div>{profileComponent}</div>
-
+                <Navigationbar /><br />
+                <Container fluid={true}>
+                    <Row>
+                        <Col xs={6} md={4}>
+                            <ImageUploader />
+                        </Col>
+                        <Col>
+                            {profileComponent}
+                        </Col>
+                    </Row>
+                </Container>
             </div>
         )
     }

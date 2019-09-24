@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import '../App.css';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
-import Navbar from './Navbar'
+import { Link } from 'react-router-dom';
+import Navigationbar from './Navigationbar'
 import grubhubLoginImage from '../images/GrubhubLoginImage.png'
+import { Row, Col } from 'react-bootstrap';
 
 class LandingPage extends Component {
     render() {
@@ -14,15 +16,23 @@ class LandingPage extends Component {
         return (
             <div>
                 {redirectVar}
-                <Navbar /><br/><br/><br/>
+                <Navigationbar />
                 <div>
-                    <img src={grubhubLoginImage} style={{ height: 'fit-content', width: '60%' }} alt='GrubHub' />
+                    <Row>
+                        <Col>
+                            <img src={grubhubLoginImage} style={{ height: 'fit-content', width: '100%' }} alt='GrubHub' />
+                        </Col>
+                        <Col>
+                            <center>
+                                Welcome to Grubhub!<br />
+                                Please <Link to='/login'>login</Link> to place your order.
+                            </center>
+                        </Col>
+                    </Row>
                 </div>
-                Welcome to Grubhub!<br/>
-                Please login to place the orders.
             </div>
         )
     }
 }
-//export Login Component
+
 export default LandingPage;

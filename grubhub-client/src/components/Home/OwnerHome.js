@@ -9,7 +9,7 @@ class OwnerHome extends Component {
     render() {
         return (
             <div>
-                Owner Home
+                <h3>Welcome to Grubhub!</h3>
             </div>
         )
     }

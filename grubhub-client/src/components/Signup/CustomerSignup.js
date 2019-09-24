@@ -4,6 +4,7 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
+import { Container, Row, Image, Col, Form, Jumbotron, Button, ButtonGroup } from 'react-bootstrap';
 import grubhubLoginImage from '../../images/GrubhubLoginImage.png'
 
 class CustomerSignup extends Component {
@@ -44,7 +45,7 @@ class CustomerSignup extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/signup', data)
+        axios.post('http://localhost:3001/grubhub/signup/customer', data)
             .then(response => {
                 if (response.status === 200) {
                     alert("You have successfully registered!");
@@ -54,7 +55,7 @@ class CustomerSignup extends Component {
                 }
             })
             .catch(error => {
-                if(error.response && error.response.data){
+                if (error.response && error.response.data) {
                     this.setState({
                         message: error.response.data
                     });
@@ -74,39 +75,45 @@ class CustomerSignup extends Component {
         return (
             <div>
                 {redirectVar}
-                <div>
-                    <img src={grubhubLoginImage} style={{ height: 'fit-content' }} alt='GrubHub' />
-                </div>
-                <div class="container">
-                    <div class="login-form">
-                        <div class="main-div">
-                            <div class="panel">
-                                <h2>Signup for Grubhub account</h2>
-                            </div>
-                            <form onSubmit={this.onSubmit}>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="name" onChange={this.onChange} placeholder="Name" pattern="^[A-Za-z0-9 ]+$" required />
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" class="form-control" name="email_id" onChange={this.onChange} placeholder="Email Id" pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$" title="Please enter valid email address" required />
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" name="password" onChange={this.onChange} placeholder="Password" required />
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="address" onChange={this.onChange} placeholder="Address" required />
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="phone_number" onChange={this.onChange} placeholder="Phone Number" pattern="^[0-9]+$" required />
-                                </div>
-                                <div style={{ color: "#ff0000" }}>{this.state.message}</div><br />
-                                <button type="submit" class="btn btn-primary">Signup</button><br /><br />
-                                <div><Link to='/restaurant/signup'>Signup as Restaurant Owner</Link></div><br />
-                                <div>Already have an account? <Link to='/login'>Login</Link></div>
-                            </form>
+                <Row>
+                    <Col>
+                        <div>
+                            <img src={grubhubLoginImage} style={{ height: 'fit-content' }} alt='GrubHub' />
                         </div>
-                    </div>
-                </div>
+                    </Col>
+                    <Col>
+                        <div class="container">
+                            <div class="login-form">
+                                <div class="main-div">
+                                    <div class="panel">
+                                        <h2>Signup for Grubhub account</h2>
+                                    </div>
+                                    <form onSubmit={this.onSubmit}>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="name" onChange={this.onChange} placeholder="Name" pattern="^[A-Za-z0-9 ]+$" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" name="email_id" onChange={this.onChange} placeholder="Email Id" pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$" title="Please enter valid email address" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" name="password" onChange={this.onChange} placeholder="Password" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="address" onChange={this.onChange} placeholder="Address" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="phone_number" onChange={this.onChange} placeholder="Phone Number" pattern="^[0-9]+$" required />
+                                        </div>
+                                        <div style={{ color: "#ff0000" }}>{this.state.message}</div><br />
+                                        <button type="submit" class="btn btn-primary">Signup</button><br /><br />
+                                        <div><Link to='/restaurant/signup'>Signup as Restaurant Owner</Link></div><br />
+                                        <div>Already have an account? <Link to='/login'>Login</Link></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
             </div>
         )
     }

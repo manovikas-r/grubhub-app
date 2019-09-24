@@ -9,7 +9,7 @@ class CustomerHome extends Component {
     render() {
         return (
             <div>
-                Customer Home
+                <h3>Welcome to Grubhub!</h3>
             </div>
         )
     }

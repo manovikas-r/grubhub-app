@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import cookie from 'react-cookies';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { Container, Row, Col, Form, Button, ButtonGroup } from 'react-bootstrap';
 
 class OwnerProfile extends Component {
     constructor(props) {
@@ -11,7 +12,6 @@ class OwnerProfile extends Component {
             name: "",
             email_id: "",
             password: "",
-            user_image: "",
             res_name: "",
             res_cuisine: "",
             res_zip_code: ""
@@ -25,13 +25,12 @@ class OwnerProfile extends Component {
             user_id: localStorage.getItem("user_id")
         };
 
-        axios.post("http://localhost:3001/restaurantget", data)
+        axios.post("http://localhost:3001/grubhub/profile/restaurantget", data)
             .then(response => {
                 this.setState({
                     user_id: response.data[0].user_id,
                     name: response.data[0].name,
                     email_id: response.data[0].email_id,
-                    user_image: response.data[0].user_image,
                     address: response.data[0].address,
                     phone_number: response.data[0].phone_number,
                     res_name: response.data[0].res_name,
@@ -62,8 +61,10 @@ class OwnerProfile extends Component {
             res_cuisine: this.state.res_cuisine,
             res_zip_code: this.state.res_zip_code
         };
-        axios.post("http://localhost:3001/restaurantupdate", data)
+        axios.post("http://localhost:3001/grubhub/profile/restaurant", data)
             .then(response => {
+                localStorage.setItem("name", data.name);
+                alert("Profile updated successfully!");
                 console.log(response);
             })
             .catch(error => {
@@ -80,7 +81,105 @@ class OwnerProfile extends Component {
     render() {
         return (
             <div>
-                <h2>Customer Profile</h2>
+                <Container fluid={true}>
+                    <Col>
+                        <h4>Profile</h4>
+                        <br />
+                        <Form onSubmit={this.onUpdate} >
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="name">
+                                    <Form.Label>Name</Form.Label>
+                                    <Form.Control name="name"
+                                        type="text"
+                                        onChange={this.onChange}
+                                        value={this.state.name}
+                                        required={true} />
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="res_name">
+                                    <Form.Label>Restaurant Name</Form.Label>
+                                    <Form.Control name="res_name"
+                                        type="text"
+                                        onChange={this.onChange}
+                                        value={this.state.res_name}
+                                        required={true} />
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="res_cuisine">
+                                    <Form.Label>Cuisine</Form.Label>
+                                    <Form.Control name="res_cuisine"
+                                        type="text"
+                                        onChange={this.onChange}
+                                        value={this.state.res_cuisine}
+                                        required={true} />
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="email_id">
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control type="email"
+                                        name="email_id"
+                                        value={this.state.email_id}
+                                        disabled />
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="RB.password">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control type="password"
+                                        name="password"
+                                        onChange={this.onChange}
+                                        placeholder="New Password" />
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="res_zip_code">
+                                    <Form.Label>ZIP Code</Form.Label>
+                                    <Form.Control type="text"
+                                        name="res_zip_code"
+                                        onChange={this.onChange}
+                                        value={this.state.res_zip_code}
+                                        required={true}
+                                    />
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="formGridCity">
+                                    <Form.Label>Address</Form.Label>
+                                    <Form.Control type="text"
+                                        name="address"
+                                        onChange={this.onChange}
+                                        value={this.state.address}
+                                        required={true} />
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="formGridZip">
+                                    <Form.Label>Phone Number</Form.Label>
+                                    <Form.Control type="text"
+                                        name="phone_number"
+                                        onChange={this.onChange}
+                                        value={this.state.phone_number}
+                                        required={true}
+                                    />
+                                </Form.Group>
+                            </Form.Row>
+                            <ButtonGroup aria-label="Third group">
+                                <Button type="submit">
+                                    Update Details</Button>
+                            </ButtonGroup>
+
+                            <ButtonGroup aria-label="Fourth group">
+                                <Link to="/home"><Button variant="warning">Cancel</Button></Link>
+                            </ButtonGroup>
+                        </Form>
+                    </Col>
+                </Container>
+            </div>
+           /* <div>
+                <h2>Profile</h2>
                 <form onSubmit={this.onUpdate}>
                         <div className="form-group">
                             <label htmlFor="name">Name</label>
@@ -170,7 +269,7 @@ class OwnerProfile extends Component {
                         </Link>
 
                 </form>
-            </div>
+            </div>*/
         )
     }
 }
