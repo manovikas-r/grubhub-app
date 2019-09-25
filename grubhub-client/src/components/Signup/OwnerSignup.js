@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import '../../App.css';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { ownerSignup } from '../../actions/signupActions'
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -8,22 +9,9 @@ import grubhubLoginImage from '../../images/GrubhubLoginImage.png'
 import { Row, Col } from 'react-bootstrap';
 
 class OwnerSignup extends Component {
-    //call the constructor method
     constructor(props) {
-        //Call the constrictor of Super class i.e The Component
         super(props);
-        //maintain the state required for this component
-        this.state = {
-            name: "",
-            email_id: "",
-            password: "",
-            address: "",
-            phone_number: "",
-            res_name: "",
-            res_cuisine: "",
-            res_zip_code: "",
-            signupFlag: false
-        }
+        this.state = {};
     }
 
     onChange = (e) => {
@@ -32,9 +20,7 @@ class OwnerSignup extends Component {
         })
     }
 
-    //submit Login handler to send a request to the node backend
     onSubmit = (e) => {
-        var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
         const data = {
@@ -47,34 +33,26 @@ class OwnerSignup extends Component {
             res_cuisine: this.state.res_cuisine,
             res_zip_code: this.state.res_zip_code
         }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/grubhub/signup/restaurant', data)
-            .then(response => {
-                if (response.status === 200) {
-                    alert("You have registered your restaurant successfully")
-                    this.setState({
-                        signupFlag: true
-                    })
-                }
-            })
-            .catch(error => {
-                if (error.response && error.response.data) {
-                    this.setState({
-                        message: error.response.data
-                    });
-                }
-            });
+
+        this.props.ownerSignup(data);
+
+        this.setState({
+            signupFlag: 1
+        });
     }
 
     render() {
         let redirectVar = null;
-        if (cookie.load('cookie')) {
+        let message = "";
+        if (localStorage.getItem("user_id")) {
             redirectVar = <Redirect to="/Home" />
         }
-        else if (this.state.signupFlag) {
+        else if (this.props.user === "USER_ADDED" && this.state.signupFlag) {
+            alert("You have registered successfully");
             redirectVar = <Redirect to="/Login" />
+        }
+        else if(this.props.user === "USER_EXISTS"){
+            message = "Email id is already registered"
         }
         return (
             <div>
@@ -117,8 +95,8 @@ class OwnerSignup extends Component {
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="phone_number" onChange={this.onChange} placeholder="Phone Number" pattern="^[0-9]+$" required />
                                         </div>
-                                        <div style={{ color: "#ff0000" }}>{this.state.message}</div><br />
-                                        <button type="submit" class="btn btn-primary">Signin</button><br /><br />
+                                        <div style={{ color: "#ff0000" }}>{message}</div><br />
+                                        <button type="submit" class="btn btn-primary">Signup</button><br /><br />
                                         <div>Already have an account? <Link to='/login'>Login</Link></div>
                                     </form>
                                 </div>
@@ -130,5 +108,14 @@ class OwnerSignup extends Component {
         )
     }
 }
-//export Login Component
-export default OwnerSignup;
+
+OwnerSignup.propTypes = {
+    customerSignup: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    user: state.signup.user
+});
+
+export default connect(mapStateToProps, { ownerSignup })(OwnerSignup);

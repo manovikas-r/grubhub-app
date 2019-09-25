@@ -10,7 +10,7 @@ import { Row, Col } from 'react-bootstrap';
 class LandingPage extends Component {
     render() {
         let redirectVar = null;
-        if (cookie.load('cookie')) {
+        if (localStorage.getItem("user_id")) {
             redirectVar = <Redirect to="/home" />
         }
         return (

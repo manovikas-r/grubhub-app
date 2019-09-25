@@ -5,9 +5,8 @@ import Navigationbar from './Navigationbar.js';
 
 class Cart extends Component {
     render() {
-        let ordersComponent = null;
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("user_id")) {
             redirectVar = <Redirect to="/" />
         }
         return (

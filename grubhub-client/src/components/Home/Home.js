@@ -10,7 +10,7 @@ class Home extends Component {
     render() {
         let homeComponent = null;
         let redirectVar = null;
-        if (cookie.load('cookie')) {
+        if (localStorage.getItem("user_id")) {
             if (localStorage.getItem("is_owner") === "1")
                 homeComponent = <OwnerHome />
             else
@@ -22,7 +22,7 @@ class Home extends Component {
         return (
             <div>
                 {redirectVar}
-                <Navigationbar /><br /><br /><br />
+                <Navigationbar />
                 {homeComponent}
             </div>
         )

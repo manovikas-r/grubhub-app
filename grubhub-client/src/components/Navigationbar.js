@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import cookie from "react-cookies";
-import { Redirect } from "react-router";
+import { connect } from 'react-redux';
 import grubhubLogo from "../images/grubhubLogo.png";
-import { Navbar, Nav, Form } from 'react-bootstrap';
+import { userLogout } from '../actions/loginAction'
+import { Navbar, Nav } from 'react-bootstrap';
 
 //create the Navbar Component
 class Navigationbar extends Component {
@@ -14,18 +15,10 @@ class Navigationbar extends Component {
     }
   }
 
-  componentDidMount() {
-    this.setState({
-      name: localStorage.getItem("name")
-    })
-  }
-
   //handle logout to destroy the cookie
   handleLogout = () => {
-    if (cookie.load("cookie")) {
-      cookie.remove("cookie", { path: "/" });
       window.localStorage.clear();
-    }
+      this.props.userLogout();
   };
 
   render() {
@@ -37,7 +30,7 @@ class Navigationbar extends Component {
     let loginLink = null;
     let nameMsg = null;
 
-    if (cookie.load("cookie")) {
+    if (localStorage.getItem("user_id")) {
       loginLink = <Link to="/" class="nav-link" onClick={this.handleLogout}>Logout</Link>;
     }
     else {
@@ -46,7 +39,7 @@ class Navigationbar extends Component {
 
     navLogo = (
       <Link to='/' class="nav-link" href="#">
-        <img src={grubhubLogo} width="150" height="auto" class="d-inline-block align-top" alt="Grubhub" />
+        <img src={grubhubLogo} width="100" height="auto" class="d-inline-block align-top" alt="Grubhub" />
       </Link>
     );
 
@@ -60,7 +53,7 @@ class Navigationbar extends Component {
 
     nameMsg = (
       <Link to="/profile" class="nav-link" href="#">
-        Hi, {this.state.name}
+        Hi, {this.state.name}!
       </Link>
     );
 
@@ -76,7 +69,7 @@ class Navigationbar extends Component {
           </Link>
     );
 
-    if (cookie.load("cookie")) {
+    if (localStorage.getItem("user_id")) {
       if (localStorage.getItem("is_owner") === "1") {
 
         navUser = (
@@ -135,4 +128,4 @@ class Navigationbar extends Component {
   }
 }
 
-export default Navigationbar;
+export default connect(null, { userLogout })(Navigationbar);

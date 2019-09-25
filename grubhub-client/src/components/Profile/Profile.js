@@ -12,7 +12,7 @@ class Profile extends Component {
     render() {
         let profileComponent = null;
         let redirectVar = null;
-        if (cookie.load('cookie')) {
+        if (localStorage.getItem("user_id")) {
             if (localStorage.getItem("is_owner") === "1")
                 profileComponent = <OwnerProfile />
             else

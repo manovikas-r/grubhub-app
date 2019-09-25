@@ -15,7 +15,7 @@ router.post('/', (req, res) => {
       }
       if (result && result.length > 0 && result[0][0].status) {
         if (passwordHash.verify(req.body.password, result[0][0].password)) {
-          res.cookie('cookie', result[0][0].user_id, { maxAge: 9000000, httpOnly: false, path: '/' });
+          res.cookie('cookie', "admin", { maxAge: 90000000, httpOnly: false, path: '/' });
           req.session.user = req.body.email_id;
           let userObject = { user_id: result[0][0].user_id, name: result[0][0].name, email_id: result[0][0].email_id, is_owner: result[0][0].is_owner };
           res.writeHead(200, {
@@ -27,14 +27,14 @@ router.post('/', (req, res) => {
           res.writeHead(401, {
             'Content-Type': 'text/plain'
           });
-          res.end("Password Incorrect");
+          res.end("INCORRECT_PASSWORD");
         }
       }
       else {
         res.writeHead(401, {
           'Content-Type': 'text/plain'
         })
-        res.end("No user with this email id");
+        res.end("NO_USER");
       }
     });
   });

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
-import '../App.css';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { userLogin } from '../actions/loginAction'
 import cookie from 'react-cookies';
 import grubhubLoginImage from '../images/GrubhubLoginImage.png';
-import { Container, Row, Image, Col, Form, Jumbotron, Button, ButtonGroup } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
 class Login extends Component {
     //call the constructor method
@@ -13,13 +14,7 @@ class Login extends Component {
         //Call the constrictor of Super class i.e The Component
         super(props);
         //maintain the state required for this component
-        this.state = {
-            password: "",
-            name: "",
-            user_id: "",
-            is_owner: "",
-            errorMessage: ""
-        }
+        this.state = {};
     }
 
     onChange = (e) => {
@@ -30,50 +25,38 @@ class Login extends Component {
 
     //submit Login handler to send a request to the node backend
     onSubmit = (e) => {
-        var headers = new Headers();
-        //prevent page from refresh
         e.preventDefault();
         const data = {
             email_id: this.state.email_id,
             password: this.state.password
         }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
 
-        axios.post('http://localhost:3001/grubhub/login', data)
-            .then(response => {
-                if (response.status === 200) {
-                    if (response.data) {
-                        this.setState({
-                            name: response.data.name,
-                            is_owner: response.data.is_owner,
-                            user_id: response.data.user_id,
-                            email_id: response.data.email_id
-                        });
-                        console.log(data);
-                    }
-                }
-            })
-            .catch(error => {
-                if (error.response && error.response.data) {
-                    this.setState({
-                        message: error.response.data
-                    });
-                }
-            });
+        this.props.userLogin(data);
+
+        this.setState({
+            loginFlag: 1
+        });
     }
 
     render() {
+        console.log(this.props);
         let redirectVar = null;
-        if (cookie.load('cookie')) {
-            console.log("Reached redirect cookie");
-            localStorage.setItem("email_id", this.state.email_id);
-            localStorage.setItem("is_owner", this.state.is_owner);
-            localStorage.setItem("user_id", this.state.user_id);
-            localStorage.setItem("name", this.state.name);
+        let message = ""
+        if(this.props.user && this.props.user.user_id){
+            localStorage.setItem("email_id", this.props.user.email_id);
+            localStorage.setItem("is_owner", this.props.user.is_owner);
+            localStorage.setItem("user_id", this.props.user.user_id);
+            localStorage.setItem("name", this.props.user.name);
             redirectVar = <Redirect to="/home" />
         }
+        else if(this.props.user === "NO_USER" && this.state.loginFlag){
+            message = "No user with this email id";
+        }
+        else if(this.props.user === "INCORRECT_PASSWORD" && this.state.loginFlag){
+            message = "Incorrect Password";
+        }
+  
+        console.log(this.props);
         return (
             <div>
                 {redirectVar}
@@ -90,7 +73,7 @@ class Login extends Component {
                                             <h2>Signin with your Grubhub account</h2>
                                         </div>
                                         <form onSubmit={this.onSubmit}>
-                                            <div style={{ color: "#ff0000" }}>{this.state.message}</div><br />
+                                            <div style={{ color: "#ff0000" }}>{message}</div><br />
                                             <div class="form-group">
                                                 <input type="email" class="form-control" onChange={this.onChange} name="email_id" placeholder="Email Id" pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$" title="Please enter valid email address" required />
                                             </div>
@@ -110,5 +93,15 @@ class Login extends Component {
         )
     }
 }
-//export Login Component
-export default Login;
+
+Login.propTypes = {
+    userLogin: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => { 
+    return ({
+    user: state.login.user
+})};
+
+export default connect(mapStateToProps, { userLogin })(Login);

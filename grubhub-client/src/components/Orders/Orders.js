@@ -10,7 +10,7 @@ class Orders extends Component {
     render() {
         let ordersComponent = null;
         let redirectVar = null;
-        if (cookie.load('cookie')) {
+        if (localStorage.getItem("user_id")) {
             if (localStorage.getItem("is_owner") === "1")
                 ordersComponent = <OwnerOrders/>
             else

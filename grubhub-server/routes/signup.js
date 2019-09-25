@@ -18,13 +18,13 @@ router.post('/customer', (req, res) => {
         res.writeHead(200, {
           'Content-Type': 'text/plain'
         })
-        res.end("User added");
+        res.end(result[0][0].status);
       }
       else if (result && result.length > 0 && result[0][0].status === 'USER_EXISTS') {
         res.writeHead(401, {
           'Content-Type': 'text/plain'
         })
-        res.end("User already exists")
+        res.end(result[0][0].status)
       }
     });
   });
@@ -44,13 +44,13 @@ router.post('/customer', (req, res) => {
         res.writeHead(200, {
           'Content-Type': 'text/plain'
         });
-        res.end("User added");
+        res.end(result[0][0].status);
       }
       else if (result && result.length > 0 && result[0][0].status === 'USER_EXISTS') {
         res.writeHead(401, {
           'Content-Type': 'text/plain'
         });
-        res.end("User already exists");
+        res.end(result[0][0].status);
       }
     });
   });

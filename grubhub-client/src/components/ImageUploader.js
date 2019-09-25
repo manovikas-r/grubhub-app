@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Card, Button } from 'react-bootstrap';
 const axios = require("axios");
 
 class ImageUploader extends Component {
@@ -6,7 +7,7 @@ class ImageUploader extends Component {
         super(props);
         this.state = {
             file: null,
-            image: "http://localhost:3001/grubhub/useruploads/"+localStorage.getItem("user_id")
+            image: "http://localhost:3001/grubhub/useruploads/" + localStorage.getItem("user_id")
         };
         this.onUpload = this.onUpload.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -30,7 +31,7 @@ class ImageUploader extends Component {
                 "content-type": "multipart/form-data"
             }
         };
-        axios.post("http://localhost:3001/grubhub/useruploads/"+localStorage.getItem("user_id"), formData, uploadConfig)
+        axios.post("http://localhost:3001/grubhub/useruploads/" + localStorage.getItem("user_id"), formData, uploadConfig)
             .then(response => {
                 alert("Image uploaded successfully!");
             })
@@ -42,12 +43,21 @@ class ImageUploader extends Component {
     render() {
         let title = localStorage.getItem("name");
         return (
-            <form onSubmit={this.onUpload}>
-                <h3>{title}</h3>
-                <img src={this.state.image} style={{ height: '60%', width: '60%' }} alt='GrubHub' /><br/><br/>
-                <input type="file" name="image" onChange={this.onChange} /><br/>
-                <button type="submit">Upload</button>
-            </form>
+            <div>
+                <center>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src={this.state.image} />
+                        <Card.Body>
+                            <Card.Title><h3>{title}</h3></Card.Title>
+
+                        </Card.Body>
+                    </Card>
+                    <form onSubmit={this.onUpload}><br /><br /><br />
+                        <input type="file" name="image" onChange={this.onChange} /><br />
+                        <Button type="submit" variant="primary">Upload</Button>
+                    </form>
+                </center>
+            </div>
         )
     }
 }

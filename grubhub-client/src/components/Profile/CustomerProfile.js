@@ -1,68 +1,45 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import cookie from 'react-cookies';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getCustomer, updateCustomer } from '../../actions/customerProfileActions'
 import { Link } from "react-router-dom";
-import ImageUploader from "../ImageUploader";
-import { Container, Row, Col, Form, Button, ButtonGroup } from 'react-bootstrap';
-import NavbarCollapse from 'react-bootstrap/NavbarCollapse';
+import { Container, Col, Form, Button, ButtonGroup } from 'react-bootstrap';
 
 class CustomerProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            user_id: "",
-            name: "",
-            email_id: "",
-            password: ""
-        };
+        this.state = {};
         this.onChange = this.onChange.bind(this);
         this.onUpdate = this.onUpdate.bind(this);
     }
 
     componentWillMount() {
-        const data = {
-            user_id: localStorage.getItem("user_id")
-        };
+        this.props.getCustomer();
+    }
 
-        axios.post("http://localhost:3001/grubhub/profile/customerget", data)
-            .then(response => {
-                this.setState({
-                    user_id: response.data[0].user_id,
-                    name: response.data[0].name,
-                    email_id: response.data[0].email_id,
-                    address: response.data[0].address,
-                    phone_number: response.data[0].phone_number
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.user) {
+            var { user } = nextProps;
+
+            var userData = {
+                user_id: user.user_id || this.state.user_id,
+                name: user.name || this.state.name,
+                email_id: user.email_id || this.state.email_id,
+                address: user.address || this.state.address,
+                phone_number: user.phone_number || this.state.phone_number
+            };
+
+            this.setState(userData);
+        }
     }
 
     onUpdate = (e) => {
-        var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
+
         //make a post request with the user data
-        let data = {
-            user_id: localStorage.getItem("user_id"),
-            email_id: this.state.email_id,
-            name: this.state.name,
-            password: this.state.password,
-            address: this.state.address,
-            phone_number: this.state.phone_number
-        };
-        axios.post("http://localhost:3001/grubhub/profile/customer", data)
-            .then(response => {
-                console.log(response);
-                localStorage.setItem("name", data.name);
-                alert("Profile updated successfully!");
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        let data = Object.assign({}, this.state);
+        this.props.updateCustomer(data);
     };
 
     onChange = (e) => {
@@ -86,6 +63,7 @@ class CustomerProfile extends Component {
                                         type="text"
                                         onChange={this.onChange}
                                         value={this.state.name}
+                                        pattern="^[A-Za-z0-9 ]+$"
                                         required={true} />
                                 </Form.Group>
                             </Form.Row>
@@ -101,7 +79,7 @@ class CustomerProfile extends Component {
                             </Form.Row>
                             <Form.Row>
                                 <Form.Group as={Col} controlId="RB.password">
-                                    <Form.Label>Password</Form.Label>
+                                    <Form.Label>Change Password</Form.Label>
                                     <Form.Control type="password"
                                         name="password"
                                         onChange={this.onChange}
@@ -127,16 +105,16 @@ class CustomerProfile extends Component {
                                         onChange={this.onChange}
                                         value={this.state.phone_number}
                                         required={true}
+                                        pattern="^[0-9]+$"
                                     />
                                 </Form.Group>
                             </Form.Row>
                             <ButtonGroup aria-label="Third group">
-                                <Button type="submit">
-                                    Update Details</Button>
+                                <Button type="submit" variant="success">Update Details</Button>
                             </ButtonGroup>
-
+                            {"  "}
                             <ButtonGroup aria-label="Fourth group">
-                                <Link to="/home"><Button variant="warning">Cancel</Button></Link>
+                                <Link to="/home"><Button variant="secondary">Cancel</Button></Link>
                             </ButtonGroup>
                         </Form>
                     </Col>
@@ -145,4 +123,15 @@ class CustomerProfile extends Component {
         )
     }
 }
-export default CustomerProfile;
+
+CustomerProfile.propTypes = {
+    getCustomer: PropTypes.func.isRequired,
+    updateCustomer: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    user: state.customerProfile.user
+});
+
+export default connect(mapStateToProps, { getCustomer, updateCustomer })(CustomerProfile);
