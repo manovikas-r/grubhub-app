@@ -63,7 +63,7 @@ class Login extends Component {
                 <div>
                     <Row>
                         <Col>
-                            <img src={grubhubLoginImage} style={{ height: 'fit-content', width: '100%' }} alt='GrubHub' />
+                            <img src={grubhubLoginImage} style={{ height: 'fit-content' }} alt='GrubHub' />
                         </Col>
                         <Col>
                             <div>
@@ -71,7 +71,7 @@ class Login extends Component {
                                     <div class="main-div">
                                         <div class="panel">
                                             <h2>Signin with your Grubhub account</h2>
-                                        </div>
+                                        </div><br/>
                                         <form onSubmit={this.onSubmit}>
                                             <div style={{ color: "#ff0000" }}>{message}</div><br />
                                             <div class="form-group">
@@ -81,7 +81,7 @@ class Login extends Component {
                                                 <input type="password" class="form-control" onChange={this.onChange} name="password" placeholder="Password" required />
                                             </div>
                                             <button type="submit" class="btn btn-primary">Signin</button><br /><br />
-                                            <div><Link to="/signup">Create new account</Link></div>
+                                            <div><center><Link to="/signup">Create new account</Link></center></div>
                                         </form>
                                     </div>
                                 </div>

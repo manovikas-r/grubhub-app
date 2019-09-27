@@ -2,6 +2,7 @@ import { CUSTOMER_SIGNUP, OWNER_SIGNUP } from './types';
 import axios from 'axios';
 
 export const customerSignup = (customerData) => dispatch => {
+    axios.defaults.withCredentials = true;
     axios.post('http://localhost:3001/grubhub/signup/customer', customerData)
         .then(response => dispatch({
             type: CUSTOMER_SIGNUP,
@@ -19,6 +20,7 @@ export const customerSignup = (customerData) => dispatch => {
 }
 
 export const ownerSignup = (ownerData) => dispatch => {
+    axios.defaults.withCredentials = true;
     axios.post('http://localhost:3001/grubhub/signup/restaurant', ownerData)
         .then(response => dispatch({
             type: OWNER_SIGNUP,

@@ -14,6 +14,7 @@ export const getCustomer = () => dispatch => {
 }
 
 export const updateCustomer = (customerProfileData) => dispatch => {
+    axios.defaults.withCredentials = true;
     axios.post("http://localhost:3001/grubhub/profile/customer", customerProfileData)
         .then(response => response.data)
         .then(data => {

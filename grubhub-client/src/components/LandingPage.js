@@ -5,7 +5,9 @@ import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import Navigationbar from './Navigationbar'
 import grubhubLoginImage from '../images/GrubhubLoginImage.png'
-import { Row, Col } from 'react-bootstrap';
+import CustomerCarousel from "../images/order.jpg"
+import OwnerCarousel from "../images/owner.jpg"
+import { Row, Col, Carousel } from 'react-bootstrap';
 
 class LandingPage extends Component {
     render() {
@@ -18,17 +20,28 @@ class LandingPage extends Component {
                 {redirectVar}
                 <Navigationbar />
                 <div>
-                    <Row>
-                        <Col>
-                            <img src={grubhubLoginImage} style={{ height: 'fit-content', width: '100%' }} alt='GrubHub' />
-                        </Col>
-                        <Col>
-                            <center>
-                                Welcome to Grubhub!<br />
-                                Please <Link to='/login'>login</Link> to place your order.
-                            </center>
-                        </Col>
-                    </Row>
+                    <center>
+                        <Carousel>
+                            <Carousel.Item>
+                                <img
+                                    className="d-block w-100"
+                                    src={CustomerCarousel}
+                                    alt="Customer"
+                                />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <Carousel.Caption>
+                                    <h3>Do you own a restaurant?</h3>
+                                    <p>Enroll your restaurant with us to get your orders online</p>
+                                </Carousel.Caption>
+                                <img
+                                    className="d-block w-100"
+                                    src={OwnerCarousel}
+                                    alt="Restaurant"
+                                />
+                            </Carousel.Item>
+                        </Carousel>
+                    </center>
                 </div>
             </div>
         )

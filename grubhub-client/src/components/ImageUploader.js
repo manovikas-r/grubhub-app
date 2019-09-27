@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, InputGroup, Form, FormControl } from 'react-bootstrap';
 const axios = require("axios");
 
 class ImageUploader extends Component {
@@ -14,8 +14,6 @@ class ImageUploader extends Component {
     }
 
     onChange = (e) => {
-        console.log(e.target.files[0]);
-        console.log("hello");
         this.setState({
             file: e.target.files[0],
             image: this.state.image

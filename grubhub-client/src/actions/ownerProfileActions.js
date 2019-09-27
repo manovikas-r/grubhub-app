@@ -14,6 +14,7 @@ export const getOwner = () => dispatch => {
 }
 
 export const updateOwner = (ownerProfileData) => dispatch => {
+    axios.defaults.withCredentials = true;
     axios.post("http://localhost:3001/grubhub/profile/restaurant", ownerProfileData)
         .then(response => response.data)
         .then(data => {
