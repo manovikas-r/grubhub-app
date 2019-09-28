@@ -16,7 +16,7 @@ import { GET_OWNER, UPDATE_OWNER } from '../actions/types';
             return {
                 ...state,
                 user: action.payload
-            }; 
+            };
         default:
             return state;
     }

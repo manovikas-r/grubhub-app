@@ -2,17 +2,9 @@ import React, { Component } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 class RestaurantCard extends Component {
-  constructor(props){
-    super(props);
-    console.log(this.props);
-    this.setState({
-      res_image: "http://localhost:3001/grubhub/restaurant/images/" + this.props.restaurant.res_image
-    });
-  }
-
   render() {
     var restaurantLink = "/restaurant/" + this.props.restaurant.res_id;
-    let imageSrc = "http://localhost:3001/grubhub/restaurant/images/" + this.props.restaurant.res_image;
+    let imageSrc = "http://localhost:3001/grubhub/images/restaurant/" + this.props.restaurant.res_image;
     return (
       <Link to={restaurantLink}>
       <Card bg="white" style={{ width: "18rem", margin: "5%" }}>

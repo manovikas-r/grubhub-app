@@ -15,7 +15,7 @@ import { GET_CUSTOMER, UPDATE_CUSTOMER } from '../actions/types';
             return {
                 ...state,
                 user: action.payload
-            }; 
+            };
         default:
             return state;
     }

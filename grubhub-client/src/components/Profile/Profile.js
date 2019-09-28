@@ -5,7 +5,6 @@ import { Redirect } from 'react-router';
 import Navigationbar from '../Navigationbar';
 import CustomerProfile from './CustomerProfile';
 import OwnerProfile from './OwnerProfile';
-import ImageUploader from '../ImageUploader';
 import { Container, Row, Col } from 'react-bootstrap';
 
 class Profile extends Component {
@@ -25,16 +24,7 @@ class Profile extends Component {
             <div>
                 {redirectVar}
                 <Navigationbar /><br />
-                <Container fluid={true}>
-                    <Row>
-                        <Col xs={6} md={4}>
-                            <ImageUploader />
-                        </Col>
-                        <Col>
-                            {profileComponent}
-                        </Col>
-                    </Row>
-                </Container>
+                {profileComponent}
             </div>
         )
     }

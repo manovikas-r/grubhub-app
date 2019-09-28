@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const passwordHash = require('password-hash');
 const pool = require('../pool.js');
-const path = require('path');
-const fs = require('fs');
 
 router.get('/restaurantitems', (req, res) => {
 
@@ -42,15 +40,5 @@ router.get('/restaurantitems', (req, res) => {
       }
     });
   });
-
-  router.get('/images/:res_image', (req, res) => {
-    var image = path.join(__dirname, '..') + '/public/uploads/restaurants/' + req.params.res_image;
-    if (fs.existsSync(image)) {
-        res.sendFile(image);
-    }
-    else {
-        res.sendFile(path.join(__dirname, '..') + '/public/uploads/restaurants/resplaceholder.jpg')
-    }
-});
 
 module.exports = router;
