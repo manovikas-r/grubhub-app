@@ -6,8 +6,9 @@ import CustomerSignup from './Signup/CustomerSignup.js';
 import Home from './Home/Home.js';
 import Profile from './Profile/Profile.js';
 import LandingPage from './LandingPage.js';
-import Cart from './Cart.js';
-import Menu from './Menu.js';
+import Restaurant from './Restaurant/Restaurant'
+import Cart from './Cart/Cart.js';
+import Menu from './Menu/Menu.js';
 import Orders from './Orders/Orders.js';
 
 class Main extends Component {
@@ -20,6 +21,7 @@ class Main extends Component {
                 <Route path="/signup" component={CustomerSignup} />
                 <Route path="/home" component={Home} />
                 <Route path="/profile" component={Profile} />
+                <Route path="/restaurant" component={Restaurant} />
                 <Route path="/orders" component={Orders} />
                 <Route path="/cart" component={Cart} />
                 <Route path="/menu" component={Menu} />

@@ -118,9 +118,9 @@ class OwnerProfile extends Component {
 
     render() {
         var userImageSrc, resImageSrc, res_title, title,
-            userFileText = this.state.userFileText || "Choose file..",
-            resFileText = this.state.resFileText || "Choose file..";
-        console.log(this.state);
+            userFileText = this.state.userFileText || "Choose image..",
+            resFileText = this.state.resFileText || "Choose image..";
+
         if (this.state) {
             userImageSrc = "http://localhost:3001/grubhub/images/user/" + this.state.user_image;
             title = this.state.name;
@@ -141,7 +141,7 @@ class OwnerProfile extends Component {
                                     </Card>
                                     <form onSubmit={this.onUserUpload}><br /><br /><br />
                                         <div class="custom-file" style={{ width: "80%" }}>
-                                            <input type="file" class="custom-file-input" name="user_file" onChange={this.onUserImageChange} />
+                                            <input type="file" class="custom-file-input" name="user_file" accept="image/*" onChange={this.onUserImageChange} required/>
                                             <label class="custom-file-label" for="user-file">{userFileText}</label>
                                         </div><br /><br />
                                         <Button type="submit" variant="primary">Upload</Button>
@@ -156,7 +156,7 @@ class OwnerProfile extends Component {
                                     </Card>
                                     <form onSubmit={this.onResUpload}><br /><br /><br />
                                         <div class="custom-file" style={{ width: "80%" }}>
-                                            <input type="file" class="custom-file-input" name="res_file" onChange={this.onResImageChange} />
+                                            <input type="file" class="custom-file-input" name="res_file" accept="image/*" onChange={this.onResImageChange} required/>
                                             <label class="custom-file-label" for="user-file">{resFileText}</label>
                                         </div><br /><br />
                                         <Button type="submit" variant="primary">Upload</Button>

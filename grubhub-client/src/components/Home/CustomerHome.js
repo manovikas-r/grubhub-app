@@ -88,8 +88,7 @@ class CustomerHome extends Component {
     render() {
         var cuisineDropdown = null,
             restaurantCards = null,
-            noRecordMessage = null,
-            resultMessage = null;
+            noRecordMessage = null;
         if (this.state && this.state.cuisineList) {
             cuisineDropdown = this.state.cuisineList.map(cuisine => {
                 return (
@@ -135,7 +134,7 @@ class CustomerHome extends Component {
                                 onChange={this.onChange}
                             />
                             <InputGroup.Append>
-                                <Button variant="info" type="submit">Search</Button>
+                                <Button variant="primary" type="submit">Search</Button>
                             </InputGroup.Append>
                             <DropdownButton
                                 as={InputGroup.Append}

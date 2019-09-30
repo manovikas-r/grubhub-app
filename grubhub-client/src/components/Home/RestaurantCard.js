@@ -3,10 +3,10 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 class RestaurantCard extends Component {
   render() {
-    var restaurantLink = "/restaurant/" + this.props.restaurant.res_id;
+    var resData = this.props.restaurant;
     let imageSrc = "http://localhost:3001/grubhub/images/restaurant/" + this.props.restaurant.res_image;
     return (
-      <Link to={restaurantLink}>
+      <Link to={{pathname: '/restaurant', state: resData}}>
       <Card bg="white" style={{ width: "18rem", margin: "5%" }}>
         <Card.Img
           variant="top"

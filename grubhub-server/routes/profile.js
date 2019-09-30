@@ -4,7 +4,7 @@ const passwordHash = require('password-hash');
 const pool = require('../pool.js');
 
 router.get('/customer/:user_id', (req, res) => {
-    let sql = `CALL User_get('${req.params.user_id}', NULL);`;
+    let sql = `CALL Customer_get('${req.params.user_id}', NULL);`;
     pool.query(sql, (err, result) => {
       if (err) {
         res.writeHead(500, {

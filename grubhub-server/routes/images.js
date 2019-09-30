@@ -26,4 +26,14 @@ router.get('/restaurant/:res_image', (req, res) => {
     }
 });
 
+router.get('/item/:item_image', (req, res) => {
+    var image = path.join(__dirname, '..') + '/public/uploads/items/' + req.params.item_image;
+    if (fs.existsSync(image)) {
+        res.sendFile(image);
+    }
+    else {
+        res.sendFile(path.join(__dirname, '..') + '/public/uploads/items/itemplaceholder.jpg')
+    }
+});
+
 module.exports = router;

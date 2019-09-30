@@ -58,7 +58,7 @@ class Navigationbar extends Component {
             </Nav>
             <Nav.Link>{nameMsg}</Nav.Link>
             <Nav.Link>
-              <Link to="/menu" class="nav-link" href="#">
+              <Link to="/menu/view" class="nav-link" href="#">
                 <img src={menuIcon} width="35" height="auto" class="d-inline-block align-top" alt="Menu" />
               </Link>
             </Nav.Link>

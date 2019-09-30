@@ -66,7 +66,6 @@ class CustomerProfile extends Component {
                     fileText: "Choose file...",
                     user_image: response.data
                 });
-                console.log(response);
             })
             .catch(err => {
                 console.log("Error");
@@ -83,10 +82,9 @@ class CustomerProfile extends Component {
 
     render() {
         var imageSrc,
-            fileText = this.state.fileText || "Choose file..",
+            fileText = this.state.fileText || "Choose image..",
             title = this.state.name;
-        console.log(this.state);
-        if (this.state && this.state.user_image) {
+        if (this.state) {
             imageSrc = "http://localhost:3001/grubhub/images/user/" + this.state.user_image;
         }
         return (
@@ -103,7 +101,7 @@ class CustomerProfile extends Component {
                                 </Card>
                                 <form onSubmit={this.onUpload}><br /><br /><br />
                                     <div class="custom-file" style={{width: "80%"}}>
-                                        <input type="file" class="custom-file-input" name="image" onChange={this.onImageChange} />
+                                        <input type="file" class="custom-file-input" name="image" accept="image/*" onChange={this.onImageChange} required/>
                                         <label class="custom-file-label" for="image">{fileText}</label>
                                     </div><br/><br/>
                                     <Button type="submit" variant="primary">Upload</Button>

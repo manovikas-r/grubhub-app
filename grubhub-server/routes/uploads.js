@@ -75,6 +75,43 @@ router.post("/restaurant/:res_id", (req, res) => {
     })
 });
 
+const itemstorage = multer.diskStorage({
+    destination: path.join(__dirname, '..') + '/public/uploads/items',
+    filename: (req, file, cb) => {
+        cb(null, "item-" + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const itemuploads = multer({
+    storage: itemstorage,
+    limits: { fileSize: 500000 },
+}).single("itemimage");
+
+router.post("/item/:item_id", (req, res) => {
+    itemuploads(req, res, function (err) {
+        if (!err) {
+            if (req.params.item_id !== "undefined") {
+                let imageSql = `UPDATE menu_items SET item_image = '${req.file.filename}' WHERE item_id = ${req.params.item_id}`;
+                console.log(imageSql);
+                pool.query(imageSql, (err, result) => {
+                    if (err) {
+                        res.writeHead(500, {
+                            'Content-Type': 'text/plain'
+                        });
+                        res.end("Database Error");
+                    }
+                });
+            }
+            res.writeHead(200, {
+                'Context-Type': 'text/plain'
+            });
+            res.end(req.file.filename);
+        }
+        else {
+            console.log(err);
+        }
+    })
+});
 
 
 module.exports = router;
