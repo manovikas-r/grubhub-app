@@ -29,11 +29,11 @@ class Navigationbar extends Component {
 
   render() {
     let navUser = null;
-    let upcomingOrders = null;
+    let pendingOrders = null;
     let nameMsg = null;
 
     if (localStorage.getItem("is_owner") === "0") {
-      upcomingOrders = (<Dropdown.Item><Link to="/orders" class="nav-link"><img src={futureIcon} width="20" height="auto" class="d-inline-block align-top" alt="" />&nbsp;&nbsp;Upcoming Orders</Link></Dropdown.Item>);
+      pendingOrders = (<Dropdown.Item><Link to="/orders" class="nav-link"><img src={futureIcon} width="20" height="auto" class="d-inline-block align-top" alt="" />&nbsp;&nbsp;Pending Orders</Link></Dropdown.Item>);
     }
 
     nameMsg = (
@@ -44,7 +44,7 @@ class Navigationbar extends Component {
         <Dropdown.Menu>
           <Dropdown.Item><Link to="/profile" class="nav-link"><img src={userIcon} width="20" height="auto" class="d-inline-block align-top" alt="" />&nbsp;&nbsp;Profile</Link></Dropdown.Item>
           <Dropdown.Item><Link to="/orders" class="nav-link"><img src={historyIcon} width="20" height="auto" class="d-inline-block align-top" alt="" />&nbsp;&nbsp;Past Orders</Link></Dropdown.Item>
-          {upcomingOrders}
+          {pendingOrders}
           <Dropdown.Item><Link to="/" class="nav-link" onClick={this.handleLogout}><img src={logoutIcon} width="20" height="auto" class="d-inline-block align-top" alt="" />&nbsp;&nbsp;Logout</Link></Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>

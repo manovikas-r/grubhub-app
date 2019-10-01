@@ -19,35 +19,39 @@ class Restaurant extends Component {
     }
 
     getSections = () => {
-        axios.get("http://localhost:3001/grubhub/menu/sections/" + this.props.location.state.owner_user_id)
-            .then(response => {
-                if (response.data[0]) {
-                    this.setState({
-                        menu_sections: response.data
-                    });
-                }
-            })
-            .catch(err => {
-                if (err.response && err.response.data) {
-                    console.log(err.response.data);
-                }
-            });
+        if (this.props.location.state) {
+            axios.get("http://localhost:3001/grubhub/menu/sections/" + this.props.location.state.owner_user_id)
+                .then(response => {
+                    if (response.data[0]) {
+                        this.setState({
+                            menu_sections: response.data
+                        });
+                    }
+                })
+                .catch(err => {
+                    if (err.response && err.response.data) {
+                        console.log(err.response.data);
+                    }
+                });
+        }
     };
 
     getMenuItems = () => {
-        axios.get("http://localhost:3001/grubhub/menu/items/" + this.props.location.state.owner_user_id)
-            .then(response => {
-                if (response.data[0]) {
-                    this.setState({
-                        menu_items: response.data
-                    });
-                }
-            })
-            .catch(err => {
-                if (err.response && err.response.data) {
-                    console.log(err.response.data);
-                }
-            });
+        if (this.props.location.state) {
+            axios.get("http://localhost:3001/grubhub/menu/items/" + this.props.location.state.owner_user_id)
+                .then(response => {
+                    if (response.data[0]) {
+                        this.setState({
+                            menu_items: response.data
+                        });
+                    }
+                })
+                .catch(err => {
+                    if (err.response && err.response.data) {
+                        console.log(err.response.data);
+                    }
+                });
+        }
     };
 
     sectionItems = (menu_section) => {
@@ -73,7 +77,7 @@ class Restaurant extends Component {
         e.target.textContent = "Added to Cart";
         let cartItems = new Array();
 
-        if (localStorage.getItem("cart_res_id") !== this.props.location.state.res_id) {
+        if (parseInt(localStorage.getItem("cart_res_id")) !== this.props.location.state.res_id) {
             localStorage.setItem("cart_items", cartItems);
         }
 
@@ -91,12 +95,23 @@ class Restaurant extends Component {
     render() {
         let redirectVar = null,
             section = null,
+            renderOutput = [],
+            resImageSrc = null,
+            resName, resPhone, resAddress, resCuisine, resZIP, 
             restaurant = this.props.location.state;
-        let resImageSrc = "http://localhost:3001/grubhub/images/restaurant/" + restaurant.res_image,
-            renderOutput = [];
 
         if (!this.props.location.state) {
             redirectVar = <Redirect to="/home" />
+        }
+
+        if (restaurant) {
+            resImageSrc = "http://localhost:3001/grubhub/images/restaurant/" + restaurant.res_image;
+            resName = restaurant.res_name;
+            resAddress = restaurant.res_address;
+            resZIP = restaurant.res_zip_code;
+            resAddress = restaurant.address;
+            resPhone = restaurant.phone_number;
+            resCuisine = restaurant.cuisine;
         }
         if (this.state && this.state.menu_sections && this.state.menu_sections.length > 0) {
             for (var i = 0; i < this.state.menu_sections.length; i++) {
@@ -115,11 +130,11 @@ class Restaurant extends Component {
                             <Card.Img style={{ width: "18rem", height: "15rem" }} src={resImageSrc} />
                         </Col>
                         <Card.Body>
-                            <Card.Title><h1>{restaurant.res_name}</h1></Card.Title>
+                            <Card.Title><h1>{resName}</h1></Card.Title>
                             <br />
-                            <Card.Text><h4>{restaurant.address} | {restaurant.res_zip_code} | {restaurant.phone_number}</h4></Card.Text>
+                            <Card.Text><h4>{resAddress} | {resZIP} | {resPhone}</h4></Card.Text>
                             <br />
-                            <Card.Text><h4>Cuisine: {restaurant.res_cuisine}</h4></Card.Text>
+                            <Card.Text><h4>Cuisine: {resCuisine}</h4></Card.Text>
                         </Card.Body>
                     </Row>
                 </Card>
@@ -127,7 +142,7 @@ class Restaurant extends Component {
                     {renderOutput}
                 </Container>
                 <center>
-                    <Button name="goToCart" href="/cart">Go To Cart</Button>
+                    <Button variant="success" name="goToCart" href="/cart">Go To Cart</Button>
                 </center>
             </div>
         )

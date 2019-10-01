@@ -6,6 +6,8 @@ import Navigationbar from "../Navigationbar";
 import MenuView from "./MenuView";
 import MenuSections from "./MenuSections";
 import MenuItems from "./MenuItems";
+import EditMenuSections from './EditMenuSections';
+import EditMenuItems from './EditMenuItems';
 
 class Menu extends Component {
   constructor(props) {
@@ -28,9 +30,7 @@ class Menu extends Component {
     if (!localStorage.getItem("user_id") || !parseInt(localStorage.getItem("is_owner"))) {
       redirectVar = <Redirect to="/" />
     }
-    else{
-      redirectVar = <Redirect to="/menu/view" />
-    }
+
     return (
       <div>
         {redirectVar}
@@ -41,8 +41,8 @@ class Menu extends Component {
           <Router>
             <Nav variant="tabs" >
               <Nav.Item>
-                <Nav.Link eventKey="1" as={NavLink} to="/menu/view" exact>
-                  Menu
+                <Nav.Link eventKey="1" as={NavLink} to="/menu/view">
+                  Menu Items
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
@@ -52,13 +52,15 @@ class Menu extends Component {
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="3" as={NavLink} to="/menu/item">
-                  Menu Items
+                  Add Menu Item
                 </Nav.Link>
               </Nav.Item>
             </Nav>
             <Route path="/menu/view" component={MenuView} />
-            <Route path="/menu/section" component={MenuSections} />
-            <Route path="/menu/item" component={MenuItems} />
+            <Route path="/menu/section" component={MenuSections} exact/>
+            <Route path="/menu/item" component={MenuItems} exact/>
+            <Route path="/menu/section/update" component={EditMenuSections} />
+            <Route path="/menu/item/update" component={EditMenuItems} />
           </Router>
         </div>
       </div>

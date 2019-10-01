@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Col, Row, Container, Button, Alert } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 class MenuSections extends Component {
@@ -11,6 +12,7 @@ class MenuSections extends Component {
         };
 
         this.onChange = this.onChange.bind(this);
+        this.editSection = this.editSection.bind(this);
         this.deleteSection = this.deleteSection.bind(this);
         this.getSections();
     }
@@ -42,6 +44,11 @@ class MenuSections extends Component {
                     console.log(err.response.data);
                 }
             });
+    };
+
+    editSection = (e) => {
+        let menu_section_id = e.target.name;
+        sessionStorage.setItem("edit_id", menu_section_id);
     };
 
     deleteSection = (e) => {
@@ -101,7 +108,6 @@ class MenuSections extends Component {
             message = <Alert variant="success">Section Added Succesfully</Alert>;
         }
         else if (this.state.message === "SECTION_EXISTS") {
-            console.log(this.state);
             message = <Alert variant="warning">A section with name {this.state.menu_section_name} already exists</Alert>;
         }
         else if (this.state.message === "NO_RECORD") {
@@ -118,7 +124,9 @@ class MenuSections extends Component {
                             {menu_section.menu_section_name}
                         </td>
                         <td align="right">
-                            <Button variant="link" name={menu_section.menu_section_id}>Edit</Button>&nbsp;
+                            <Link to="/menu/section/update">
+                                <Button variant="link" onClick={this.editSection} name={menu_section.menu_section_id}>Edit</Button>&nbsp;
+                            </Link>
                             <Button variant="link" onClick={this.deleteSection} name={menu_section.menu_section_id}>Delete</Button>
                         </td>
                     </tr>

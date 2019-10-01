@@ -3,7 +3,7 @@ import { Form, Col, Row, Container, Button, Alert, Card } from "react-bootstrap"
 import { Redirect } from "react-router";
 import axios from "axios";
 
-class MenuItems extends Component {
+class EditMenuItems extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,10 +17,36 @@ class MenuItems extends Component {
         this.getSections();
     }
 
-    onChange = e => {
+    componentWillMount() {
+        let item_id = sessionStorage.getItem("edit_id");
+        sessionStorage.removeItem("edit_id");
         this.setState({
-            [e.target.name]: e.target.value
+            item_id: item_id
         });
+        axios.get("http://localhost:3001/grubhub/menu/menuitem/" + item_id)
+            .then(response => {
+                if (response.data.status && response.data.status === "NO_RECORD") {
+                    this.setState({
+                        noRecordFlag: true
+                    });
+                }
+                else {
+                    this.setState({
+                        item_name: response.data.item_name,
+                        item_description: response.data.item_description,
+                        item_price: response.data.item_price,
+                        item_image: response.data.item_image,
+                        menu_section_id: response.data.menu_section_id,
+                        menu_section_name: response.data.menu_section_name,
+                        data_flag: true
+                    });
+                }
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log(err.response.data);
+                }
+            });
     };
 
     getSections = () => {
@@ -39,18 +65,25 @@ class MenuItems extends Component {
             });
     };
 
+    onChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    };
+
     onSubmit = e => {
         e.preventDefault();
         const data = {
-            user_id: localStorage.getItem("user_id"),
+            user_id: parseInt(localStorage.getItem("user_id")),
+            item_id: this.state.item_id,
             item_name: this.state.item_name,
             item_description: this.state.item_description,
             item_price: this.state.item_price,
-            menu_section_name: this.state.menu_section_name || this.state.menu_sections[0].menu_section_name,
+            menu_section_name: this.state.menu_section_name,
             item_image: this.state.item_image
         };
 
-        axios.post("http://localhost:3001/grubhub/menu/items", data)
+        axios.post("http://localhost:3001/grubhub/menu/itemsupdate", data)
             .then(response => {
                 this.setState({
                     message: response.data.status
@@ -95,17 +128,28 @@ class MenuItems extends Component {
     }
 
     render() {
-        let message = null, redirectVar= null;
-        if (this.state.message === "ITEM_ADDED") {
+        let message = null,
+            redirectVar = null;
+
+        if (this.state.message === "ITEM_UPDATED") {
             redirectVar = <Redirect to="/menu/view" />;
         }
         else if (this.state.message === "ITEM_EXISTS") {
             message = <Alert variant="warning">A item with name {this.state.item_name} already exists</Alert>;
         }
 
+        if (this.state && this.state.noRecordFlag) {
+            redirectVar = <Redirect to="/menu/view" />;
+        }
+
         let section_options = null;
         if (this.state && this.state.menu_sections && this.state.menu_sections.length > 0) {
             section_options = this.state.menu_sections.map(menu_section => {
+                if (menu_section.menu_section_name === this.state.menu_section_name) {
+                    return (
+                        <option selected>{menu_section.menu_section_name}</option>
+                    );
+                }
                 return (
                     <option>{menu_section.menu_section_name}</option>
                 );
@@ -123,29 +167,29 @@ class MenuItems extends Component {
                 <Row>
                     <Col xs={6} md={4}>
                         <center>
-                            <br/><br/>
+                            <br /><br />
                             <Card style={{ width: '18rem' }}>
                                 <Card.Img variant="top" src={imageSrc} />
                             </Card>
                             <form onSubmit={this.onUpload}><br /><br /><br />
                                 <div class="custom-file" style={{ width: "80%" }}>
                                     <input type="file" class="custom-file-input" name="image" accept="image/*" onChange={this.onImageChange} required />
-                                    <label class="custom-file-label" for="image" style={{"text-align":"left"}}>{fileText}</label>
+                                    <label class="custom-file-label" for="image" style={{ "text-align": "left" }}>{fileText}</label>
                                 </div><br /><br />
                                 <Button type="submit" variant="primary">Upload</Button>
                             </form>
                         </center>
                     </Col>
                     <Col>
-                    <br/><br/>
-                        <h3>Add New Menu Item</h3><br />
+                        <br /><br />
+                        <h3>Edit Menu Item</h3><br />
                         <Form onSubmit={this.onSubmit}>
                             <Form.Group as={Row} controlId="item_name">
                                 <Form.Label column sm="3">
                                     Item Name:
                                 </Form.Label>
                                 <Col sm="4">
-                                    <Form.Control style={{ width: "15rem" }} type="text" name="item_name" placeholder="Enter Item Name.." onChange={this.onChange} required/>
+                                    <Form.Control style={{ width: "15rem" }} type="text" name="item_name" placeholder="Enter Item Name.." defaultValue={this.state.item_name} onChange={this.onChange} required />
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} controlId="item_description">
@@ -153,13 +197,13 @@ class MenuItems extends Component {
                                     Item Description:
                                 </Form.Label>
                                 <Col sm="4">
-                                    <Form.Control style={{ width: "15rem" }} type="text" name="item_description" placeholder="Enter Item Description.." onChange={this.onChange} required/>
+                                    <Form.Control style={{ width: "15rem" }} type="text" name="item_description" placeholder="Enter Item Description.." defaultValue={this.state.item_description} onChange={this.onChange} required />
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} controlId="item_price">
                                 <Form.Label column sm="3">Price: </Form.Label>
                                 <Col sm="4">
-                                    <Form.Control style={{ width: "15rem" }} type="text" name="item_price" placeholder="Enter Price.." onChange={this.onChange} required/>
+                                    <Form.Control style={{ width: "15rem" }} type="text" name="item_price" placeholder="Enter Price.." defaultValue={this.state.item_price} onChange={this.onChange} required />
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} controlId="item_section">
@@ -170,7 +214,8 @@ class MenuItems extends Component {
                                     </Form.Control>
                                 </Col>
                             </Form.Group>
-                            <Button type="sumbit">Add Item</Button>
+                            <Button type="sumbit">Update Item</Button>&nbsp;
+                            <Button variant="warning" href="/menu/view">Cancel</Button>
                         </Form>
                         {message}
                     </Col>
@@ -180,4 +225,4 @@ class MenuItems extends Component {
     }
 }
 
-export default MenuItems;
+export default EditMenuItems;

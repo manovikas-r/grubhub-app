@@ -6,7 +6,8 @@ const profile = require("./routes/profile");
 const restaurant = require("./routes/restaurant");
 const images = require("./routes/images");
 const uploads = require("./routes/uploads");
-const menu = require("./routes/menu");
+const menusections = require("./routes/menusections");
+const menuitems = require("./routes/menuitems");
 const cart = require("./routes/cart");
 
 app.use("/grubhub/login", login);
@@ -15,7 +16,8 @@ app.use("/grubhub/profile", profile);
 app.use("/grubhub/restaurant", restaurant);
 app.use("/grubhub/images", images);
 app.use("/grubhub/uploads", uploads);
-app.use("/grubhub/menu", menu);
+app.use("/grubhub/menu", menusections);
+app.use("/grubhub/menu", menuitems);
 app.use("/grubhub/cart", cart);
 
 const port = process.env.PORT || 3001;

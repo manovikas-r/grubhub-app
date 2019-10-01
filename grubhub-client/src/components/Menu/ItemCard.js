@@ -8,7 +8,7 @@ class ItemCard extends Component {
       <Card bg="white" style={{ width: "50rem", height: "8rem", margin: "2%" }}>
         <Row>
           <Col>
-            <Card.Img style={{ width: "12rem" }} src={imageSrc} />
+            <Card.Img style={{ width: "12rem", height: "8rem"}} src={imageSrc} />
           </Col>
           <Card.Body>
             <Card.Title>{this.props.menu_item.item_name}</Card.Title>
@@ -16,9 +16,9 @@ class ItemCard extends Component {
             <Card.Text>Price: $ {this.props.menu_item.item_price}</Card.Text>
             </Card.Body>
             <Col align="right">
-              <Button variant="link" name={this.props.menu_item.item_id}>Edit</Button>&nbsp;
+              <Button variant="link" href="/menu/item/update" onClick={this.props.onUpdateClick} name={this.props.menu_item.item_id}>Edit</Button>&nbsp;
               <Button variant="link" onClick={this.props.deleteItem} name={this.props.menu_item.item_id}>Delete</Button>
-              </Col>
+            </Col>
         </Row>
       </Card>
     );
