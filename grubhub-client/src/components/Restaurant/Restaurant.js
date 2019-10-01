@@ -111,7 +111,7 @@ class Restaurant extends Component {
             resZIP = restaurant.res_zip_code;
             resAddress = restaurant.address;
             resPhone = restaurant.phone_number;
-            resCuisine = restaurant.cuisine;
+            resCuisine = restaurant.res_cuisine;
         }
         if (this.state && this.state.menu_sections && this.state.menu_sections.length > 0) {
             for (var i = 0; i < this.state.menu_sections.length; i++) {
@@ -142,6 +142,7 @@ class Restaurant extends Component {
                     {renderOutput}
                 </Container>
                 <center>
+                    <Button href="/home">Home</Button>&nbsp;&nbsp;
                     <Button variant="success" name="goToCart" href="/cart">Go To Cart</Button>
                 </center>
             </div>

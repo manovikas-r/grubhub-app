@@ -17,7 +17,7 @@ router.get('/:res_id', (req, res) => {
       res.writeHead(200, {
         'Content-Type': 'text/plain'
       });
-      res.end(JSON.stringify(result[0]));
+      res.end(JSON.stringify(result[0][0]));
     }
   });
 });

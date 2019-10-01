@@ -150,6 +150,7 @@ class CustomerProfile extends Component {
                                             name="address"
                                             onChange={this.onChange}
                                             value={this.state.address}
+                                            pattern="^[A-Za-z0-9 ,-]+$"
                                             required={true} />
                                     </Form.Group>
                                 </Form.Row>
@@ -174,7 +175,8 @@ class CustomerProfile extends Component {
                                 </ButtonGroup>
                             </Form>
                         </Col>
-                    </Row>
+                    </Row><br/>
+                    <center><Button href="/home">Home</Button></center>
                 </Container>
             </div>
         )

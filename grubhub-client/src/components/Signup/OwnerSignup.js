@@ -90,7 +90,7 @@ class OwnerSignup extends Component {
                                             <input type="text" class="form-control" name="res_zip_code" onChange={this.onChange} placeholder="ZIP Code" pattern="^[0-9]{5,6}$" required />
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="address" onChange={this.onChange} placeholder="Address" required />
+                                            <input type="text" class="form-control" name="address" onChange={this.onChange} placeholder="Address" pattern="^[A-Za-z0-9 ,-]+$" required />
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="phone_number" onChange={this.onChange} placeholder="Phone Number" pattern="^[0-9]+$" required />

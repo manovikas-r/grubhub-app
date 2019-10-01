@@ -80,7 +80,7 @@ class CustomerSignup extends Component {
                                             <input type="password" class="form-control" name="password" onChange={this.onChange} placeholder="Password" required />
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="address" onChange={this.onChange} placeholder="Address" required />
+                                            <input type="text" class="form-control" name="address" onChange={this.onChange} placeholder="Address" pattern="^[A-Za-z0-9 ,-]+$" required />
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="phone_number" onChange={this.onChange} placeholder="Phone Number" pattern="^[0-9]+$" required />

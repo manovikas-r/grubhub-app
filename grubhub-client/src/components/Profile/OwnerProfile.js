@@ -174,6 +174,7 @@ class OwnerProfile extends Component {
                                             type="text"
                                             onChange={this.onChange}
                                             value={this.state.name}
+                                            pattern="^[A-Za-z0-9 ]+$"
                                             required={true} />
                                     </Form.Group>
                                 </Form.Row>
@@ -184,6 +185,7 @@ class OwnerProfile extends Component {
                                             type="text"
                                             onChange={this.onChange}
                                             value={this.state.res_name}
+                                            pattern="^[A-Za-z0-9 ]+$"
                                             required={true} />
                                     </Form.Group>
                                 </Form.Row>
@@ -194,6 +196,7 @@ class OwnerProfile extends Component {
                                             type="text"
                                             onChange={this.onChange}
                                             value={this.state.res_cuisine}
+                                            pattern="^[A-Z ]+$"
                                             required={true} />
                                     </Form.Group>
                                 </Form.Row>
@@ -222,6 +225,7 @@ class OwnerProfile extends Component {
                                             name="res_zip_code"
                                             onChange={this.onChange}
                                             value={this.state.res_zip_code}
+                                            pattern="^[0-9]+"
                                             required={true}
                                         />
                                     </Form.Group>
@@ -233,6 +237,7 @@ class OwnerProfile extends Component {
                                             name="address"
                                             onChange={this.onChange}
                                             value={this.state.address}
+                                            pattern="^[A-Za-z0-9 ,-]+$"
                                             required={true} />
                                     </Form.Group>
                                 </Form.Row>
@@ -244,6 +249,7 @@ class OwnerProfile extends Component {
                                             onChange={this.onChange}
                                             value={this.state.phone_number}
                                             required={true}
+                                            pattern="^[0-9]+$"
                                         />
                                     </Form.Group>
                                 </Form.Row>
@@ -257,6 +263,7 @@ class OwnerProfile extends Component {
                             </Form>
                         </Col>
                     </Row>
+                    <center><Button href="/home">Home</Button></center>
                 </Container>
             </div>
         )

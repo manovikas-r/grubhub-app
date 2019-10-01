@@ -150,6 +150,7 @@ class MenuSections extends Component {
                                 name="menu_section_name"
                                 placeholder="Enter Menu Section.."
                                 onChange={this.onChange}
+                                pattern="^[A-Za-z ]+$"
                                 required
                             />
                         </Col>

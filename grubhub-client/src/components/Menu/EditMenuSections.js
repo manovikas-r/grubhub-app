@@ -103,6 +103,7 @@ class EditMenuSections extends Component {
                                     name="menu_section_name"
                                     defaultValue={menuSectionName}
                                     onChange={this.onChange}
+                                    pattern="^[A-Za-z ]+$"
                                     required
                                 />
                             </Col>

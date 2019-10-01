@@ -145,7 +145,7 @@ class MenuItems extends Component {
                                     Item Name:
                                 </Form.Label>
                                 <Col sm="4">
-                                    <Form.Control style={{ width: "15rem" }} type="text" name="item_name" placeholder="Enter Item Name.." onChange={this.onChange} required/>
+                                    <Form.Control style={{ width: "15rem" }} type="text" name="item_name" placeholder="Enter Item Name.." onChange={this.onChange} pattern="^[A-Za-z0-9 ]+$" required/>
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} controlId="item_description">
@@ -153,13 +153,13 @@ class MenuItems extends Component {
                                     Item Description:
                                 </Form.Label>
                                 <Col sm="4">
-                                    <Form.Control style={{ width: "15rem" }} type="text" name="item_description" placeholder="Enter Item Description.." onChange={this.onChange} required/>
+                                    <Form.Control style={{ width: "15rem" }} type="text" name="item_description" placeholder="Enter Item Description.." onChange={this.onChange} pattern="^[A-Za-z0-9 ,.-]+$" required/>
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} controlId="item_price">
                                 <Form.Label column sm="3">Price: </Form.Label>
                                 <Col sm="4">
-                                    <Form.Control style={{ width: "15rem" }} type="text" name="item_price" placeholder="Enter Price.." onChange={this.onChange} required/>
+                                    <Form.Control style={{ width: "15rem" }} type="text" name="item_price" placeholder="Enter Price.." onChange={this.onChange} pattern="^(\d*\.)?\d+$" required/>
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} controlId="item_section">
