@@ -12,7 +12,6 @@ class MenuSections extends Component {
         };
 
         this.onChange = this.onChange.bind(this);
-        this.editSection = this.editSection.bind(this);
         this.deleteSection = this.deleteSection.bind(this);
         this.getSections();
     }
@@ -44,11 +43,6 @@ class MenuSections extends Component {
                     console.log(err.response.data);
                 }
             });
-    };
-
-    editSection = (e) => {
-        let menu_section_id = e.target.name;
-        sessionStorage.setItem("edit_id", menu_section_id);
     };
 
     deleteSection = (e) => {
@@ -124,8 +118,8 @@ class MenuSections extends Component {
                             {menu_section.menu_section_name}
                         </td>
                         <td align="right">
-                            <Link to="/menu/section/update">
-                                <Button variant="link" onClick={this.editSection} name={menu_section.menu_section_id}>Edit</Button>&nbsp;
+                            <Link to={{pathname: "/menu/section/update", state: {menu_section_id: menu_section.menu_section_id}}}>
+                                <Button variant="link" name={menu_section.menu_section_id}>Edit</Button>&nbsp;
                             </Link>
                             <Button variant="link" onClick={this.deleteSection} name={menu_section.menu_section_id}>Delete</Button>
                         </td>

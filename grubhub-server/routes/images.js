@@ -22,7 +22,7 @@ router.get('/restaurant/:res_image', (req, res) => {
         res.sendFile(image);
     }
     else {
-        res.sendFile(path.join(__dirname, '..') + '/public/uploads/restaurants/resplaceholder.png')
+        res.sendFile(path.join(__dirname, '..') + '/public/uploads/restaurants/resplaceholder.jpg')
     }
 });
 

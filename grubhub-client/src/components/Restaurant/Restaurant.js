@@ -13,9 +13,12 @@ class Restaurant extends Component {
             menu_items: []
         });
         this.sectionItems = this.sectionItems.bind(this);
-        this.addToCart = this.addToCart.bind(this);
         this.getSections();
         this.getMenuItems();
+    }
+
+    componentWillMount(){
+        document.title = this.props.location.state.res_name;
     }
 
     getSections = () => {
@@ -64,31 +67,11 @@ class Restaurant extends Component {
                 section = <h4>{menu_section.menu_section_name}</h4>;
                 itemsRender.push(section);
                 for (var i = 0; i < items.length; i++) {
-                    item = <ItemCard menu_item={items[i]} onButtonClick={this.addToCart} />;
+                    item = <ItemCard menu_item={items[i]} />;
                     itemsRender.push(item);
                 }
             }
             return itemsRender;
-        }
-    };
-
-    addToCart = (e) => {
-        let item_id = e.target.name;
-        e.target.textContent = "Added to Cart";
-        let cartItems = new Array();
-
-        if (parseInt(localStorage.getItem("cart_res_id")) !== this.props.location.state.res_id) {
-            localStorage.setItem("cart_items", cartItems);
-        }
-
-        if (localStorage.getItem("cart_items")) {
-            cartItems.push(...JSON.parse(localStorage.getItem("cart_items")));
-        }
-
-        if (!cartItems.includes(item_id)) {
-            cartItems.push(item_id);
-            localStorage.setItem("cart_res_id", this.props.location.state.res_id);
-            localStorage.setItem("cart_items", JSON.stringify(cartItems));
         }
     };
 

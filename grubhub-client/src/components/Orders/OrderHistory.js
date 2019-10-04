@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
-import '../../App.css';
-import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
-import Navigationbar from '../Navigationbar.js';
-import CustomerOrders from './CustomerOrders.js';
-import OwnerOrders from './OwnerOrders.js';
+import Navigationbar from '../Navigationbar';
+import CustomerOrderHistory from './CustomerOrderHistory';
+import OwnerOrderHistory from './OwnerOrderHistory';
 
-class Orders extends Component {
+class OrderHistory extends Component {
+    componentWillMount(){
+        document.title = "Your Orders";
+    }
     render() {
         let ordersComponent = null;
         let redirectVar = null;
         if (localStorage.getItem("user_id")) {
             if (localStorage.getItem("is_owner") === "1")
-                ordersComponent = <OwnerOrders/>
+                ordersComponent = <OwnerOrderHistory/>
             else
-                ordersComponent = <CustomerOrders />
+                ordersComponent = <CustomerOrderHistory />
         }
         else {
             redirectVar = <Redirect to="/" />
@@ -28,4 +29,4 @@ class Orders extends Component {
         )
     }
 }
-export default Orders;
+export default OrderHistory;

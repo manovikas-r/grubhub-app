@@ -18,8 +18,7 @@ class EditMenuItems extends Component {
     }
 
     componentWillMount() {
-        let item_id = sessionStorage.getItem("edit_id");
-        sessionStorage.removeItem("edit_id");
+        let item_id = this.props.location.state.item_id;
         this.setState({
             item_id: item_id
         });

@@ -8,6 +8,9 @@ import OwnerProfile from './OwnerProfile';
 import { Container, Row, Col } from 'react-bootstrap';
 
 class Profile extends Component {
+    componentWillMount(){
+        document.title = "Your Profile";
+    }
     render() {
         let profileComponent = null;
         let redirectVar = null;

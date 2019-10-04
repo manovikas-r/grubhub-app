@@ -19,6 +19,9 @@ class Menu extends Component {
     this.onTabClick = this.onTabClick.bind(this);
   }
 
+  componentWillMount(){
+    document.title = "Your Menu"
+  }
   onTabClick = e => {
     this.setState({
       activeTab: e.target.eventKey
@@ -42,7 +45,7 @@ class Menu extends Component {
             <Nav variant="tabs" >
               <Nav.Item>
                 <Nav.Link eventKey="1" as={NavLink} to="/menu/view">
-                  Menu Items
+                  Menu
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
@@ -52,7 +55,7 @@ class Menu extends Component {
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="3" as={NavLink} to="/menu/item">
-                  Add Menu Item
+                  Menu Items
                 </Nav.Link>
               </Nav.Item>
             </Nav>

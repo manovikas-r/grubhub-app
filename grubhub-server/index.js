@@ -9,6 +9,7 @@ const uploads = require("./routes/uploads");
 const menusections = require("./routes/menusections");
 const menuitems = require("./routes/menuitems");
 const cart = require("./routes/cart");
+const orders = require("./routes/orders");
 
 app.use("/grubhub/login", login);
 app.use("/grubhub/signup", signup);
@@ -19,6 +20,7 @@ app.use("/grubhub/uploads", uploads);
 app.use("/grubhub/menu", menusections);
 app.use("/grubhub/menu", menuitems);
 app.use("/grubhub/cart", cart);
+app.use("/grubhub/orders", orders);
 
 const port = process.env.PORT || 3001;
 var server = app.listen(port, () => {

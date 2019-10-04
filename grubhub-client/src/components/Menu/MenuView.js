@@ -13,7 +13,6 @@ class MenuView extends Component {
 
         this.sectionItems = this.sectionItems.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
-        this.updateItem = this.updateItem.bind(this);
         this.getSections();
         this.getMenuItems();
     }
@@ -60,7 +59,7 @@ class MenuView extends Component {
                 section = <h4>{menu_section.menu_section_name}</h4>;
                 itemsRender.push(section);
                 for (var i = 0; i < items.length; i++) {
-                    item = <ItemCard menu_item={items[i]} deleteItem={this.deleteItem} onUpdateClick={this.updateItem}/>;
+                    item = <ItemCard menu_item={items[i]} deleteItem={this.deleteItem}/>;
                     itemsRender.push(item);
                 }
             }
@@ -92,11 +91,6 @@ class MenuView extends Component {
                 }
             });
 
-    };
-
-    updateItem = (e) => {
-        let item_id = e.target.name;
-        sessionStorage.setItem("edit_id", item_id);
     };
 
     render() {

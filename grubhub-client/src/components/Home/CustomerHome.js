@@ -48,34 +48,36 @@ class CustomerHome extends Component {
 
     onSearch = (e) => {
         e.preventDefault();
-        var searchInput = typeof this.state.search_input === "undefined" || this.state.search_input === "" ? "_" : this.state.search_input;
-        axios.get("http://localhost:3001/grubhub/restaurant/restaurantsearch/" + searchInput)
-            .then(response => {
-                var cuisines = [];
-                if (response.data) {
-                    if (response.data[0].search_result === 'NO_RECORD') {
-                        this.setState({
-                            noRecord: true,
-                        });
-                    }
-                    else {
-                        for (var i = 0; i < response.data.length; i++) {
-                            cuisines.push(response.data[i].res_cuisine)
+        if (this.state) {
+            var searchInput = typeof this.state.search_input === "undefined" || this.state.search_input === "" ? "_" : this.state.search_input;
+            axios.get("http://localhost:3001/grubhub/restaurant/restaurantsearch/" + searchInput)
+                .then(response => {
+                    var cuisines = [];
+                    if (response.data) {
+                        if (response.data[0].search_result === 'NO_RECORD') {
+                            this.setState({
+                                noRecord: true,
+                            });
                         }
-                        this.setState({
-                            restaurantList: response.data,
-                            displayRestaurants: response.data,
-                            cuisineList: cuisines,
-                            noRecord: false
-                        });
+                        else {
+                            for (var i = 0; i < response.data.length; i++) {
+                                cuisines.push(response.data[i].res_cuisine)
+                            }
+                            this.setState({
+                                restaurantList: response.data,
+                                displayRestaurants: response.data,
+                                cuisineList: cuisines,
+                                noRecord: false
+                            });
+                        }
                     }
-                }
-            })
-            .catch(error => {
-                if (error.response && error.response.data) {
-                    console.log(error.response.data);
-                }
-            })
+                })
+                .catch(error => {
+                    if (error.response && error.response.data) {
+                        console.log(error.response.data);
+                    }
+                })
+        }
     }
 
     onCuisineSelect = (e) => {
@@ -123,6 +125,8 @@ class CustomerHome extends Component {
             <div>
                 <center><br /><br />
                     <h3>Search for restaurants with your favorite food!</h3>
+                    <br />
+                    <h4>Make a purchase of worth $100 or more and receive a discount of 20% and free delivery!</h4>
                     <br />
                     <form onSubmit={this.onSearch}>
                         <InputGroup style={{ width: '50%' }} size="lg">

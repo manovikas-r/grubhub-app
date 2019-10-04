@@ -16,7 +16,9 @@ class ItemCard extends Component {
             <Card.Text>Price: $ {this.props.menu_item.item_price}</Card.Text>
             </Card.Body>
             <Col align="right">
-              <Button variant="link" href="/menu/item/update" onClick={this.props.onUpdateClick} name={this.props.menu_item.item_id}>Edit</Button>&nbsp;
+              <Link to={{pathname: "/menu/item/update", state: {item_id: this.props.menu_item.item_id}}}>
+              <Button variant="link" name={this.props.menu_item.item_id}>Edit</Button>&nbsp;
+              </Link>
               <Button variant="link" onClick={this.props.deleteItem} name={this.props.menu_item.item_id}>Delete</Button>
             </Col>
         </Row>

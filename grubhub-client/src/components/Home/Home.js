@@ -7,6 +7,9 @@ import CustomerHome from './CustomerHome.js';
 import OwnerHome from './OwnerHome.js';
 
 class Home extends Component {
+    componentWillMount(){
+        document.title = "Grubhub | Food Delivery | Order Food online";
+    }
     render() {
         let homeComponent = null;
         let redirectVar = null;
