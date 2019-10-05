@@ -12,7 +12,7 @@ router.get('/pendingorders/:user_id', (req, res) => {
       });
       res.end("Database Error");
     }
-    if (result && result.length > 0 && result[0][0]) {
+    if (result && result.length > 0 && result[0][0] && result[0][0].status !== 'NO_PENDING_ORDERS') {
       res.writeHead(200, {
         'Content-Type': 'text/plain'
       });
@@ -37,7 +37,7 @@ router.get('/completedorders/:user_id', (req, res) => {
       });
       res.end("Database Error");
     }
-    if (result && result.length > 0 && result[0][0]) {
+    if (result && result.length > 0 && result[0][0] && result[0][0].status !== "NO_COMPLETED_ORDERS") {
       res.writeHead(200, {
         'Content-Type': 'text/plain'
       });
@@ -62,7 +62,7 @@ router.get('/pendingorders/restaurant/:user_id', (req, res) => {
       });
       res.end("Database Error");
     }
-    if (result && result.length > 0 && result[0][0]) {
+    if (result && result.length > 0 && result[0][0] && result[0][0].status !== "NO_PENDING_ORDERS") {
       res.writeHead(200, {
         'Content-Type': 'text/plain'
       });
@@ -87,7 +87,7 @@ router.get('/completedorders/restaurant/:user_id', (req, res) => {
       });
       res.end("Database Error");
     }
-    if (result && result.length > 0 && result[0][0]) {
+    if (result && result.length > 0 && result[0][0] && result[0][0].status !== "NO_COMPLETED_ORDERS") {
       res.writeHead(200, {
         'Content-Type': 'text/plain'
       });

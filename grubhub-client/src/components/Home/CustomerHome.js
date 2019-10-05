@@ -22,14 +22,23 @@ class CustomerHome extends Component {
             .then(response => {
                 var cuisines = [];
                 if (response.data) {
-                    for (var i = 0; i < response.data.length; i++) {
-                        cuisines.push(response.data[i].res_cuisine)
+                    if (response.data[0].search_result === 'NO_RECORD') {
+                        this.setState({
+                            noRecord: true,
+                            search_input: ""
+                        });
                     }
-                    this.setState({
-                        restaurantList: response.data,
-                        displayRestaurants: response.data,
-                        cuisineList: cuisines
-                    });
+                    else {
+                        for (var i = 0; i < response.data.length; i++) {
+                            if(!cuisines.includes(response.data[i].res_cuisine))
+                            cuisines.push(response.data[i].res_cuisine)
+                        }
+                        this.setState({
+                            restaurantList: response.data,
+                            displayRestaurants: response.data,
+                            cuisineList: cuisines
+                        });
+                    }
                 }
             })
             .catch(error => {
@@ -57,10 +66,12 @@ class CustomerHome extends Component {
                         if (response.data[0].search_result === 'NO_RECORD') {
                             this.setState({
                                 noRecord: true,
+                                search_input: searchInput
                             });
                         }
                         else {
                             for (var i = 0; i < response.data.length; i++) {
+                                if(!cuisines.includes(response.data[i].res_cuisine))
                                 cuisines.push(response.data[i].res_cuisine)
                             }
                             this.setState({
@@ -109,16 +120,22 @@ class CustomerHome extends Component {
             });
         }
 
-        if (this.state && this.state.noRecord) {
+        if (this.state && this.state.noRecord && this.state.search_input === "") {
             noRecordMessage = (
                 <Alert variant="warning">
-                    No Results for {this.state.search_input}. Please try again.
+                    No Restaurants are available now. Please try again later.
+                </Alert>
+            );
+        }
+        else if(this.state && this.state.noRecord){
+            noRecordMessage = (
+            <Alert variant="warning">
+                    No Results. Please try again.
                 </Alert>
             );
         }
         else {
             noRecordMessage = null;
-
         }
 
         return (

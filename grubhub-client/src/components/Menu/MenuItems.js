@@ -165,7 +165,7 @@ class MenuItems extends Component {
                             <Form.Group as={Row} controlId="item_section">
                                 <Form.Label column sm="3">Section:</Form.Label>
                                 <Col sm="4">
-                                    <Form.Control as="select" style={{ width: "15rem" }} onChange={this.onChange} name="menu_section_name">
+                                    <Form.Control as="select" style={{ width: "15rem" }} onChange={this.onChange} name="menu_section_name" required>
                                         {section_options}
                                     </Form.Control>
                                 </Col>

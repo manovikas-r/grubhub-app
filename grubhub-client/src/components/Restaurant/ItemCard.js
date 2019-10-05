@@ -47,12 +47,12 @@ class ItemCard extends Component {
 
     let index = cartItems.findIndex((cartItem => cartItem.item_id === item_id));
     if (index === -1) {
-      cartItems.push({ item_id: item_id, item_quantity: this.state.item_quantity, item_price: this.props.menu_item.item_price, item_name: this.props.menu_item.item_name });
+      cartItems.push({ item_id: item_id, item_quantity: this.state.item_quantity || 1, item_price: this.props.menu_item.item_price, item_name: this.props.menu_item.item_name });
       localStorage.setItem("cart_res_id", this.props.menu_item.res_id);
       localStorage.setItem("cart_items", JSON.stringify(cartItems));
       this.setState({
         showModal: false,
-        item_quantity: null
+        item_quantity: 1
       });
     }
   };
@@ -99,16 +99,18 @@ class ItemCard extends Component {
 
     return (
       <div>
-        <Card bg="white" style={{ width: "50rem", height: "8rem", margin: "2%" }}>
+        <Card bg="white" style={{ width: "50rem", margin: "2%" }}>
           <Row>
             <Col>
-              <Card.Img style={{ width: "12rem", height: "8rem" }} src={imageSrc} />
+              <Card.Img style={{ width: "12rem", height: "9rem" }} src={imageSrc} />
             </Col>
+            <Col>
             <Card.Body>
               <Card.Title>{this.props.menu_item.item_name}</Card.Title>
               <Card.Text>{this.props.menu_item.item_description}</Card.Text>
               <Card.Text>Price: $ {this.props.menu_item.item_price}</Card.Text>
             </Card.Body>
+            </Col>
             <Col align="right">
               <br /><br />
               <Button variant={buttonVariant} onClick={buttonClick} name={this.props.menu_item.item_id}>{buttonText}</Button>&nbsp; &nbsp;
