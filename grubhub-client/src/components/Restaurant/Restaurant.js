@@ -130,6 +130,7 @@ class Restaurant extends Component {
                     <Button href="/home">Home</Button>&nbsp;&nbsp;
                     <Button variant="success" name="goToCart" href="/cart">Go To Cart</Button>
                 </center>
+                <br/>
             </div>
         )
     }
