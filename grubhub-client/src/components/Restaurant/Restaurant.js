@@ -17,8 +17,10 @@ class Restaurant extends Component {
         this.getMenuItems();
     }
 
-    componentWillMount(){
-        document.title = this.props.location.state.res_name;
+    componentWillMount() {
+        if (this.props.location.state) {
+            document.title = this.props.location.state.res_name;
+        }
     }
 
     getSections = () => {
@@ -80,10 +82,10 @@ class Restaurant extends Component {
             section = null,
             renderOutput = [],
             resImageSrc = null,
-            resName, resPhone, resAddress, resCuisine, resZIP, 
+            resName, resPhone, resAddress, resCuisine, resZIP,
             restaurant = this.props.location.state;
 
-        if (!this.props.location.state) {
+        if (!localStorage.getItem("user_id") || !this.props.location.state) {
             redirectVar = <Redirect to="/home" />
         }
 

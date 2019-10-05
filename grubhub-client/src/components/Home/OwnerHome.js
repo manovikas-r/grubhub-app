@@ -92,6 +92,9 @@ class OwnerHome extends Component {
                 <Alert variant="success">Order Status Updated</Alert>
             );
         }
+        let loc = Location.pathname;
+
+        console.log(loc);
 
         if(this.state && this.state.restaurant){
             let restaurant = this.state.restaurant;
@@ -140,10 +143,10 @@ class OwnerHome extends Component {
                                         <Card.Text>{order.order_date}</Card.Text>
                                     </Col>
                                     <Col align="center">
-                                        <Link to={{ pathname: "/orders/details", state: order }}>
+                                        <Link to={{ pathname: "/orders/details", state: {order_details: order, prevPath: "/home"} }}>
                                             <Button variant="link">Order Details</Button>
                                         </Link>
-                                        <Link to={{ pathname: "/orders/billing", state: order }}>
+                                        <Link to={{ pathname: "/orders/billing", state: {order_details: order, prevPath: "/home"}}}>
                                             <Button variant="link">Billing Details</Button>
                                         </Link>
                                     </Col>

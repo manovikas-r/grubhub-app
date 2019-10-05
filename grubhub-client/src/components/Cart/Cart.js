@@ -158,7 +158,6 @@ class Cart extends Component {
             var total = ((subTotal * (100 + tax - discount) / 100) + delivery).toFixed(2);
             for (var i = 0; i < cart_items.length; i++) {
                 let quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-                let stateIndex = this.state.cart_items.findIndex((cart_item => cart_item.item_id === cart_items[i].item_id));
                 let quantityOptions = quantity.map(number => {
                     if (number === cart_items[i].item_quantity) {
                         return <option selected>{number}</option>;

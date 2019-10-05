@@ -11,7 +11,10 @@ import Cart from './Cart/Cart';
 import Menu from './Menu/Menu';
 import CustomerOrders from './Orders/CustomerOrders';
 import OrderHistory from './Orders/OrderHistory';
-import ConfirmOrder from './Cart/ConfirmOrder'
+import ConfirmOrder from './Cart/ConfirmOrder';
+import OrderBillView from './Orders/OrderBillView';
+import OrderItemsView from './Orders/OrderItemsView';
+
 
 class Main extends Component {
     render() {
@@ -26,6 +29,8 @@ class Main extends Component {
                 <Route path="/restaurant" component={Restaurant} />
                 <Route exact path="/orders" component={CustomerOrders} />
                 <Route path="/orders/history" component={OrderHistory} />
+                <Route path="/orders/billing" component={OrderBillView} />
+                <Route path="/orders/details" component={OrderItemsView} />
                 <Route path="/cart" component={Cart} />
                 <Route path="/menu" component={Menu} />
                 <Route path="/order/confirm" component={ConfirmOrder} />

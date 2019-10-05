@@ -102,6 +102,31 @@ router.get('/completedorders/restaurant/:user_id', (req, res) => {
   });
 });
 
+router.get('/orderitems/:order_id', (req, res) => {
+
+  let sql = `CALL Order_Items_get(${req.params.order_id});`;
+  pool.query(sql, (err, result) => {
+    if (err) {
+      res.writeHead(500, {
+        'Content-Type': 'text/plain'
+      });
+      res.end("Database Error");
+    }
+    if (result && result.length > 0 && result[0][0]) {
+      res.writeHead(200, {
+        'Content-Type': 'text/plain'
+      });
+      res.end(JSON.stringify(result[0]));
+    }
+    else {
+      res.writeHead(500, {
+        'Content-Type': 'text/plain'
+      });
+      res.end("NO_RECORDS");
+    }
+  });
+});
+
 router.post('/placeorder', (req, res) => {
   let sql = `CALL Orders_put(${req.body.user_id}, ${req.body.res_id}, '${req.body.status}',${req.body.sub_total}, ${req.body.tax}, ${req.body.delivery}, ${req.body.discount}, ${req.body.total});`;
   pool.query(sql, (err, result) => {

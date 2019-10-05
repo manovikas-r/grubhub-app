@@ -49,10 +49,10 @@ class OwnerOrderHistory extends Component {
                                         <Card.Text>{order.order_date}</Card.Text>
                                     </Col>
                                     <Col align="center">
-                                        <Link to={{ pathname: "/orders/details", state: order }}>
+                                        <Link to={{ pathname: "/orders/details", state: {order_details: order, prevPath: "/orders/history"} }}>
                                             <Button variant="link">Order Details</Button>
                                         </Link>
-                                        <Link to={{ pathname: "/orders/billing", state: order }}>
+                                        <Link to={{ pathname: "/orders/billing", state: {order_details: order, prevPath: "/orders/history"} }}>
                                             <Button variant="link">Billing Details</Button>
                                         </Link>
                                     </Col>

@@ -93,12 +93,12 @@ class CustomerOrders extends Component {
                                 <Row>
                                     <Col>
                                         <Card.Title>{order.res_name}</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted">{order.address} | {order.res_zip_code}</Card.Subtitle>
+                                        <Card.Subtitle className="mb-2 text-muted">{order.res_address} | {order.res_zip_code}</Card.Subtitle>
                                         <Row>
-                                            <Link to={{ pathname: "/orders/details", state: order }}>
+                                            <Link to={{ pathname: "/orders/details", state: {order_details: order, prevPath: "/orders"} }}>
                                                 <Button variant="link">Order Details</Button>
                                             </Link>
-                                            <Link to={{ pathname: "/orders/billing", state: order }}>
+                                            <Link to={{ pathname: "/orders/billing", state: {order_details: order, prevPath: "/orders"}}}>
                                                 <Button variant="link">Billing Details</Button>
                                             </Link>
                                         </Row>
