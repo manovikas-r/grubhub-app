@@ -14,7 +14,7 @@ const userstorage = multer.diskStorage({
 
 const useruploads = multer({
     storage: userstorage,
-    limits: { fileSize: 500000 },
+    limits: { fileSize: 1000000 },
 }).single("image");
 
 router.post("/user/:user_id", (req, res) => {
@@ -49,7 +49,7 @@ const resstorage = multer.diskStorage({
 
 const resuploads = multer({
     storage: resstorage,
-    limits: { fileSize: 500000 },
+    limits: { fileSize: 1000000 },
 }).single("resimage");
 
 router.post("/restaurant/:res_id", (req, res) => {
@@ -84,7 +84,7 @@ const itemstorage = multer.diskStorage({
 
 const itemuploads = multer({
     storage: itemstorage,
-    limits: { fileSize: 500000 },
+    limits: { fileSize: 1000000 },
 }).single("itemimage");
 
 router.post("/item/:item_id", (req, res) => {

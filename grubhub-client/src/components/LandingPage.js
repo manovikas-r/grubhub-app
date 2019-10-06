@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../App.css';
 import { Redirect } from 'react-router';
 import Navigationbar from './Navigationbar'
 import CustomerCarousel from "../images/order.jpg"
