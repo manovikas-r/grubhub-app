@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ownerSignup } from '../../actions/signupActions'
-import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import grubhubLoginImage from '../../images/GrubhubLoginImage.png'

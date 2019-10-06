@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import '../App.css';
-import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
-import { Link } from 'react-router-dom';
 import Navigationbar from './Navigationbar'
-import grubhubLoginImage from '../images/GrubhubLoginImage.png'
 import CustomerCarousel from "../images/order.jpg"
 import OwnerCarousel from "../images/owner.jpg"
-import { Row, Col, Carousel } from 'react-bootstrap';
+import { Carousel } from 'react-bootstrap';
 
 class LandingPage extends Component {
     render() {

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Form, Col, Row, Container, Button, Alert, Card } from "react-bootstrap";
+import { Form, Col, Row, Button, Alert, Card } from "react-bootstrap";
 import { Redirect } from "react-router";
 import axios from "axios";
+import backendServer from "../../webConfig"
 
 class MenuItems extends Component {
     constructor(props) {
@@ -24,7 +25,7 @@ class MenuItems extends Component {
     };
 
     getSections = () => {
-        axios.get("http://localhost:3001/grubhub/menu/sections/" + localStorage.getItem("user_id"))
+        axios.get(`${backendServer}/grubhub/menu/sections/${localStorage.getItem("user_id")}`)
             .then(response => {
                 if (response.data[0]) {
                     this.setState({
@@ -50,7 +51,7 @@ class MenuItems extends Component {
             item_image: this.state.item_image
         };
 
-        axios.post("http://localhost:3001/grubhub/menu/items", data)
+        axios.post(`${backendServer}/grubhub/menu/items`, data)
             .then(response => {
                 this.setState({
                     message: response.data.status
@@ -81,7 +82,7 @@ class MenuItems extends Component {
                 "content-type": "multipart/form-data"
             }
         };
-        axios.post("http://localhost:3001/grubhub/uploads/item/" + this.state.item_id, formData, uploadConfig)
+        axios.post(`${backendServer}/grubhub/uploads/item/${this.state.item_id}`, formData, uploadConfig)
             .then(response => {
                 alert("Image uploaded successfully!");
                 this.setState({
@@ -115,7 +116,7 @@ class MenuItems extends Component {
         var imageSrc,
             fileText = this.state.fileText || "Choose image..";
         if (this.state) {
-            imageSrc = "http://localhost:3001/grubhub/images/item/" + this.state.item_image;
+            imageSrc = `${backendServer}/grubhub/images/item/${this.state.item_image}`;
         }
         return (
             <div>

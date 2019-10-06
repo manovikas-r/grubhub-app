@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import backendServer from "../../webConfig";
 import RestaurantCard from "./RestaurantCard";
-import { InputGroup, FormControl, Form, Button, DropdownButton, Dropdown, Alert, Container, Col, Row } from 'react-bootstrap';
-import Axios from 'axios';
+import { InputGroup, FormControl, Button, DropdownButton, Dropdown, Alert, Col, Row } from 'react-bootstrap';
 
 class CustomerHome extends Component {
     constructor(props) {
@@ -18,7 +18,7 @@ class CustomerHome extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:3001/grubhub/restaurant/restaurantsearch/_")
+        axios.get(`${backendServer}/grubhub/restaurant/restaurantsearch/_`)
             .then(response => {
                 var cuisines = [];
                 if (response.data) {
@@ -59,7 +59,7 @@ class CustomerHome extends Component {
         e.preventDefault();
         if (this.state) {
             var searchInput = typeof this.state.search_input === "undefined" || this.state.search_input === "" ? "_" : this.state.search_input;
-            axios.get("http://localhost:3001/grubhub/restaurant/restaurantsearch/" + searchInput)
+            axios.get(`${backendServer}/grubhub/restaurant/restaurantsearch/${searchInput}`)
                 .then(response => {
                     var cuisines = [];
                     if (response.data) {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Form, Col, Row, Container, Button, Alert, Card } from "react-bootstrap";
+import { Form, Col, Row, Button, Alert, Card } from "react-bootstrap";
 import { Redirect } from "react-router";
+import backendServer from "../../webConfig";
 import axios from "axios";
 
 class EditMenuItems extends Component {
@@ -22,7 +23,7 @@ class EditMenuItems extends Component {
         this.setState({
             item_id: item_id
         });
-        axios.get("http://localhost:3001/grubhub/menu/menuitem/" + item_id)
+        axios.get(`${backendServer}/grubhub/menu/menuitem/${item_id}`)
             .then(response => {
                 if (response.data.status && response.data.status === "NO_RECORD") {
                     this.setState({
@@ -49,7 +50,7 @@ class EditMenuItems extends Component {
     };
 
     getSections = () => {
-        axios.get("http://localhost:3001/grubhub/menu/sections/" + localStorage.getItem("user_id"))
+        axios.get(`${backendServer}/grubhub/menu/sections/${localStorage.getItem("user_id")}`)
             .then(response => {
                 if (response.data[0]) {
                     this.setState({
@@ -82,7 +83,7 @@ class EditMenuItems extends Component {
             item_image: this.state.item_image
         };
 
-        axios.post("http://localhost:3001/grubhub/menu/itemsupdate", data)
+        axios.post(`${backendServer}/grubhub/menu/itemsupdate`, data)
             .then(response => {
                 this.setState({
                     message: response.data.status
@@ -113,7 +114,7 @@ class EditMenuItems extends Component {
                 "content-type": "multipart/form-data"
             }
         };
-        axios.post("http://localhost:3001/grubhub/uploads/item/" + this.state.item_id, formData, uploadConfig)
+        axios.post(`${backendServer}/grubhub/uploads/item/${this.state.item_id}`, formData, uploadConfig)
             .then(response => {
                 alert("Image uploaded successfully!");
                 this.setState({
@@ -158,7 +159,7 @@ class EditMenuItems extends Component {
         var imageSrc,
             fileText = this.state.fileText || "Choose image..";
         if (this.state) {
-            imageSrc = "http://localhost:3001/grubhub/images/item/" + this.state.item_image;
+            imageSrc = `${backendServer}/grubhub/images/item/${this.state.item_image}`;
         }
         return (
             <div>

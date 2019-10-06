@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import backendServer from "../../webConfig";
 import { Card, Container, Col, Form, Row, Button, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -13,7 +14,7 @@ class OwnerHome extends Component {
     }
 
     getPendingOrders = () => {
-        axios.get("http://localhost:3001/grubhub/orders/pendingorders/restaurant/" + localStorage.getItem("user_id"))
+        axios.get(`${backendServer}/grubhub/orders/pendingorders/restaurant/${localStorage.getItem("user_id")}`)
             .then(response => {
                 if (response.data[0]) {
                     this.setState({
@@ -31,7 +32,7 @@ class OwnerHome extends Component {
     };
 
     getRestaurantProfile = () => {
-        axios.get("http://localhost:3001/grubhub/profile/restaurant/" + localStorage.getItem("user_id"))
+        axios.get(`${backendServer}/grubhub/profile/restaurant/${localStorage.getItem("user_id")}`)
         .then(response => {
             if(response.data[0]){
                 this.setState({
@@ -57,7 +58,7 @@ class OwnerHome extends Component {
             order_status: newStatus
         };
 
-        axios.post("http://localhost:3001/grubhub/orders/orderstatus", data)
+        axios.post(`${backendServer}/grubhub/orders/orderstatus`, data)
             .then(response => {
                 if (response.data === "STATUS_UPDATED") {
                     this.setState({
@@ -72,8 +73,6 @@ class OwnerHome extends Component {
     };
 
     render() {
-
-        let redirectVar = null;
         let orders = [];
         let orderCards = null;
         let message = null;
@@ -98,7 +97,7 @@ class OwnerHome extends Component {
 
         if(this.state && this.state.restaurant){
             let restaurant = this.state.restaurant;
-            let resImageSrc = "http://localhost:3001/grubhub/images/restaurant/" + restaurant.res_image;
+            let resImageSrc = `${backendServer}/grubhub/images/restaurant/${restaurant.res_image}`;
             restaurantDetails = (
                 <Card bg="info" text="white" style={{ width: "70rem", height: "15rem", margin: "2%" }}>
                     <Row>

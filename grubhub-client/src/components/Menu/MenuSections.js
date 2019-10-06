@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form, Col, Row, Container, Button, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import backendServer from "../../webConfig";
 
 class MenuSections extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ class MenuSections extends Component {
     };
 
     getSections = () => {
-        axios.get("http://localhost:3001/grubhub/menu/sections/" + localStorage.getItem("user_id"))
+        axios.get(`${backendServer}/grubhub/menu/sections/${localStorage.getItem("user_id")}`)
             .then(response => {
                 if (response.data[0]) {
                     if (response.data[0].status === 'NO_RECORD') {
@@ -49,7 +50,7 @@ class MenuSections extends Component {
         const data = {
             menu_section_id: e.target.name,
         };
-        axios.post("http://localhost:3001/grubhub/menu/sectiondelete", data)
+        axios.post(`${backendServer}/grubhub/menu/sectiondelete`, data)
             .then(response => {
                 let new_menu_sections = this.state.menu_sections;
                 let index = new_menu_sections.map(menu_section => menu_section.menu_section_id).indexOf(parseInt(data.menu_section_id));
@@ -78,7 +79,7 @@ class MenuSections extends Component {
             menu_section_name: this.state.menu_section_name
         };
 
-        axios.post("http://localhost:3001/grubhub/menu/sections", data)
+        axios.post(`${backendServer}/grubhub/menu/sections`, data)
             .then(response => {
                 this.setState({
                     menu_sections: [...this.state.menu_sections, { menu_section_id: response.data.menu_section_id, menu_section_name: response.data.menu_section_name }],

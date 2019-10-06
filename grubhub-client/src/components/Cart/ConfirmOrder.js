@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
+import backendServer from "../../webConfig";
 import { Button, Alert, Container, Table, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import Navigationbar from '../Navigationbar.js';
 import axios from 'axios';
 
@@ -28,7 +28,7 @@ class ConfirmOrder extends Component {
     };
 
     getUserProfile = () => {
-        axios.get("http://localhost:3001/grubhub/profile/customer/" + localStorage.getItem("user_id"))
+        axios.get(`${backendServer}/grubhub/profile/customer/${localStorage.getItem("user_id")}`)
         .then(response => {
             if(response.data[0]){
                 this.setState({
@@ -52,12 +52,11 @@ class ConfirmOrder extends Component {
             discount: (this.state.discount * this.state.sub_total / 100).toFixed(2),
             delivery: this.state.delivery,
             tax: (this.state.tax * this.state.sub_total / 100).toFixed(2),
-            delivery: this.state.delivery,
             total: this.state.total,
             cart_items: this.state.cart_items
         }
 
-        axios.post("http://localhost:3001/grubhub/cart/placeorder", data)
+        axios.post(`${backendServer}/grubhub/cart/placeorder`, data)
             .then(response => {
                 if (response.data.status === "ORDER_PLACED") {
                     localStorage.removeItem("cart_items");

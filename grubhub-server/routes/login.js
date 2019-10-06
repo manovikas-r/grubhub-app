@@ -4,8 +4,8 @@ const passwordHash = require('password-hash');
 const pool = require('../pool.js');
 
 router.post('/', (req, res) => {
-
     let sql = `CALL Password_get('${req.body.email_id}');`;
+
     pool.query(sql, (err, result) => {
       if (err) {
         res.writeHead(500, {

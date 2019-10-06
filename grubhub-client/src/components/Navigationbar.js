@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import cookie from "react-cookies";
 import { connect } from 'react-redux';
 import grubhubLogo from "../images/grubhubLogo.png";
 import cartIcon from "../images/cart.png";

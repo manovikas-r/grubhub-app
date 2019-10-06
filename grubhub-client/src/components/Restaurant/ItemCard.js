@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { Card, Modal, Form, Button, Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Card, Modal, Button, Col, Row } from "react-bootstrap";
+import backendServer from "../../webConfig";
+
+
 class ItemCard extends Component {
   constructor(props) {
     super(props);
@@ -79,7 +81,7 @@ class ItemCard extends Component {
 
 
   render() {
-    let imageSrc = "http://localhost:3001/grubhub/images/item/" + this.props.menu_item.item_image;
+    let imageSrc = `${backendServer}/grubhub/images/item/${this.props.menu_item.item_image}`;
     let buttonText = "Add to Cart";
     let buttonVariant = "primary";
     let cartItems = [];
@@ -102,7 +104,7 @@ class ItemCard extends Component {
         <Card bg="white" style={{ width: "50rem", margin: "2%" }}>
           <Row>
             <Col>
-              <Card.Img style={{ width: "12rem", height: "9rem" }} src={imageSrc} />
+              <Card.Img style={{ width: "12rem", height: "9rem" }} alt="" src={imageSrc} />
             </Col>
             <Col>
             <Card.Body>
@@ -123,7 +125,7 @@ class ItemCard extends Component {
           </Modal.Header>
           <Modal.Body>
             <center>
-              <img src={imageSrc} width="100%" />
+              <img src={imageSrc} width="100%" alt="" />
               <p>{this.props.menu_item.item_description}</p>
               Quantity: <input type="number" name={this.props.menu_item.item_id} min="1" max="10" width="10%" onChange={this.onQuantityChange} defaultValue="1" autofocus></input>
             </center>

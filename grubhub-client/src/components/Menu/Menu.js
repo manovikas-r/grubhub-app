@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
-import { BrowserRouter as Router, Link, NavLink, Route } from "react-router-dom";
+import { BrowserRouter as Router, NavLink, Route } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import Navigationbar from "../Navigationbar";
 import MenuView from "./MenuView";

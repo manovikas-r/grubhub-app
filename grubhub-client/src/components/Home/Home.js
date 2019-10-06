@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import '../../App.css';
-import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import Navigationbar from '../Navigationbar.js';
 import CustomerHome from './CustomerHome.js';

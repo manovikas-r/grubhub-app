@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import backendServer from "../../webConfig";
 import { getCustomer, updateCustomer } from '../../actions/customerProfileActions'
 import { Link } from "react-router-dom";
 import { Container, Col, Row, Form, Button, ButtonGroup, Card } from 'react-bootstrap';
@@ -59,7 +60,7 @@ class CustomerProfile extends Component {
                 "content-type": "multipart/form-data"
             }
         };
-        axios.post("http://localhost:3001/grubhub/uploads/user/" + this.state.user_id, formData, uploadConfig)
+        axios.post(`${backendServer}/grubhub/uploads/user/${this.state.user_id}`, formData, uploadConfig)
             .then(response => {
                 alert("Image uploaded successfully!");
                 this.setState({
@@ -85,7 +86,7 @@ class CustomerProfile extends Component {
             fileText = this.state.fileText || "Choose image..",
             title = this.state.name;
         if (this.state) {
-            imageSrc = "http://localhost:3001/grubhub/images/user/" + this.state.user_image;
+            imageSrc = `${backendServer}/grubhub/images/user/${this.state.user_image}`;
         }
         return (
             <div>

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Form, Col, Row, Container, Button, Alert } from "react-bootstrap";
+import { Container, Alert } from "react-bootstrap";
 import axios from "axios";
-import ItemCard from "./ItemCard"
+import ItemCard from "./ItemCard";
+import backendServer from "../../webConfig";
 
 class MenuView extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class MenuView extends Component {
     }
 
     getSections = () => {
-        axios.get("http://localhost:3001/grubhub/menu/sections/" + localStorage.getItem("user_id"))
+        axios.get(`${backendServer}/grubhub/menu/sections/${localStorage.getItem("user_id")}`)
             .then(response => {
                 if (response.data[0]) {
                     this.setState({
@@ -34,7 +35,7 @@ class MenuView extends Component {
     };
 
     getMenuItems = () => {
-        axios.get("http://localhost:3001/grubhub/menu/items/" + localStorage.getItem("user_id"))
+        axios.get(`${backendServer}/grubhub/menu/items/${localStorage.getItem("user_id")}`)
             .then(response => {
                 if (response.data[0]) {
                     this.setState({
@@ -51,8 +52,6 @@ class MenuView extends Component {
 
     sectionItems = (menu_section) => {
         var itemsRender = [], items, item, section;
-
-
         if (this.state && this.state.menu_items && this.state.menu_items.length > 0) {
             items = this.state.menu_items.filter(menu_item => menu_item.menu_section_id === menu_section.menu_section_id);
             if (items.length > 0) {
@@ -71,7 +70,7 @@ class MenuView extends Component {
         const data = {
             item_id: e.target.name,
         };
-        axios.post("http://localhost:3001/grubhub/menu/itemdelete", data)
+        axios.post(`${backendServer}/grubhub/menu/itemdelete`, data)
             .then(response => {
                 let new_menu_items = this.state.menu_items;
                 let index = new_menu_items.map(menu_item => menu_item.item_id).indexOf(parseInt(data.item_id));

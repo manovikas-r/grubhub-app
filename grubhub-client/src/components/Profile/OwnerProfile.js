@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getOwner, updateOwner } from '../../actions/ownerProfileActions'
 import { Container, Col, Row, Form, Button, ButtonGroup, Card } from 'react-bootstrap';
+import backendServer from "../../webConfig";
 
 class OwnerProfile extends Component {
     constructor(props) {
@@ -81,7 +82,7 @@ class OwnerProfile extends Component {
                 "content-type": "multipart/form-data"
             }
         };
-        axios.post("http://localhost:3001/grubhub/uploads/restaurant/" + this.state.res_id, formData, uploadConfig)
+        axios.post(`${backendServer}/grubhub/uploads/restaurant/${this.state.res_id}`, formData, uploadConfig)
             .then(response => {
                 alert("Image uploaded successfully!");
                 this.setState({
@@ -103,7 +104,7 @@ class OwnerProfile extends Component {
                 "content-type": "multipart/form-data"
             }
         };
-        axios.post("http://localhost:3001/grubhub/uploads/user/" + this.state.user_id, formData, uploadConfig)
+        axios.post(`${backendServer}/grubhub/uploads/user/${this.state.user_id}`, formData, uploadConfig)
             .then(response => {
                 alert("Image uploaded successfully!");
                 this.setState({
@@ -122,9 +123,9 @@ class OwnerProfile extends Component {
             resFileText = this.state.resFileText || "Choose image..";
 
         if (this.state) {
-            userImageSrc = "http://localhost:3001/grubhub/images/user/" + this.state.user_image;
+            userImageSrc = `${backendServer}/grubhub/images/user/${this.state.user_image}`;
             title = this.state.name;
-            resImageSrc = "http://localhost:3001/grubhub/images/restaurant/" + this.state.res_image;
+            resImageSrc = `${backendServer}/grubhub/images/restaurant/${this.state.res_image}`;
             res_title = this.state.res_name;
         }
         return (

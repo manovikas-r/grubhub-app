@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import { Button, Alert, Container, Table, Form, Card, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Button, Container, Table, Card } from "react-bootstrap";
 import Navigationbar from '../Navigationbar.js';
 import axios from 'axios';
+import backendServer from "../../webConfig";
 
 class OrderItemsView extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class OrderItemsView extends Component {
                 prevPath: this.props.location.state.prevPath
             });
 
-            axios.get("http://localhost:3001/grubhub/orders/orderitems/" + this.props.location.state.order_details.order_id)
+            axios.get(`${backendServer}/grubhub/orders/orderitems/${this.props.location.state.order_details.order_id}`)
                 .then(response => {
                     if (response.data[0]) {
                         this.setState({

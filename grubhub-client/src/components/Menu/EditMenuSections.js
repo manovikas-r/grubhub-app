@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Col, Row, Container, Button, Alert } from "react-bootstrap";
 import { Redirect } from "react-router";
+import backendServer from "../../webConfig";
 import axios from "axios";
 
 class EditMenuSections extends Component {
@@ -18,7 +19,7 @@ class EditMenuSections extends Component {
         this.setState({
             menu_section_id: menu_section_id
         });
-        axios.get("http://localhost:3001/grubhub/menu/sectionitem/" + menu_section_id)
+        axios.get(`${backendServer}/grubhub/menu/sectionitem/${menu_section_id}`)
             .then(response => {
                 if (response.data.status === "NO_RECORD"){
                     this.setState({
@@ -52,7 +53,7 @@ class EditMenuSections extends Component {
             menu_section_name: this.state.menu_section_name
         };
 
-        axios.post("http://localhost:3001/grubhub/menu/sectionsupdate", data)
+        axios.post(`${backendServer}/grubhub/menu/sectionsupdate`, data)
             .then(response => {
                 if (response.data) {
                     this.setState({

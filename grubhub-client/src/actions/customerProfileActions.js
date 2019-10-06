@@ -1,8 +1,9 @@
-import { GET_CUSTOMER, UPDATE_CUSTOMER } from './types';
-import axios from 'axios';
+import { GET_CUSTOMER, UPDATE_CUSTOMER } from "./types";
+import backendServer from "../webConfig"
+import axios from "axios";
 
 export const getCustomer = () => dispatch => {
-    axios.get("http://localhost:3001/grubhub/profile/customer/" + localStorage.getItem("user_id"))
+    axios.get(`${backendServer}/grubhub/profile/customer/${localStorage.getItem("user_id")}`)
         .then(response => response.data[0])
         .then(customer => dispatch({
             type: GET_CUSTOMER,
@@ -15,7 +16,7 @@ export const getCustomer = () => dispatch => {
 
 export const updateCustomer = (customerProfileData) => dispatch => {
     axios.defaults.withCredentials = true;
-    axios.post("http://localhost:3001/grubhub/profile/customer", customerProfileData)
+    axios.post(`${backendServer}/grubhub/profile/customer`, customerProfileData)
         .then(response => response.data)
         .then(data => {
             if (data === 'CUSTOMER_UPDATED') {

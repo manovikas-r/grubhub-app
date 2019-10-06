@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { userLogin } from '../actions/loginAction'
-import cookie from 'react-cookies';
 import grubhubLoginImage from '../images/GrubhubLoginImage.png';
 import { Row, Col } from 'react-bootstrap';
 

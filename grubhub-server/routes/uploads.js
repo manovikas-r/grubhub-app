@@ -92,7 +92,7 @@ router.post("/item/:item_id", (req, res) => {
         if (!err) {
             if (req.params.item_id !== "undefined") {
                 let imageSql = `UPDATE menu_items SET item_image = '${req.file.filename}' WHERE item_id = ${req.params.item_id}`;
-                console.log(imageSql);
+
                 pool.query(imageSql, (err, result) => {
                     if (err) {
                         res.writeHead(500, {

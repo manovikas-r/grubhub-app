@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Card, Container, Col, Form, Row, Button, Alert } from "react-bootstrap";
+import { Card, Container, Col, Row, Button, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import backendServer from "../../webConfig";
 
 class OwnerOrderHistory extends Component {
     constructor(props) {
@@ -11,7 +12,7 @@ class OwnerOrderHistory extends Component {
     }
 
     getCompletedOrders = () => {
-        axios.get("http://localhost:3001/grubhub/orders/completedorders/restaurant/" + localStorage.getItem("user_id"))
+        axios.get(`${backendServer}/grubhub/orders/completedorders/restaurant/${localStorage.getItem("user_id")}`)
             .then(response => {
                 if (response.data[0]) {
                     this.setState({

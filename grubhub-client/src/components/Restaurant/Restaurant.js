@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import axios from 'axios';
 import ItemCard from "./ItemCard"
-import { InputGroup, FormControl, Form, Button, Card, DropdownButton, Dropdown, Alert, Container, Col, Row } from 'react-bootstrap';
+import { Button, Card, Container, Col, Row } from 'react-bootstrap';
 import Navigationbar from '../Navigationbar';
+import backendServer from "../../webConfig";
 
 class Restaurant extends Component {
     constructor(props) {
@@ -25,7 +26,7 @@ class Restaurant extends Component {
 
     getSections = () => {
         if (this.props.location.state) {
-            axios.get("http://localhost:3001/grubhub/menu/sections/" + this.props.location.state.owner_user_id)
+            axios.get(`${backendServer}/grubhub/menu/sections/${this.props.location.state.owner_user_id}`)
                 .then(response => {
                     if (response.data[0]) {
                         this.setState({
@@ -43,7 +44,7 @@ class Restaurant extends Component {
 
     getMenuItems = () => {
         if (this.props.location.state) {
-            axios.get("http://localhost:3001/grubhub/menu/items/" + this.props.location.state.owner_user_id)
+            axios.get(`${backendServer}/grubhub/menu/items/${this.props.location.state.owner_user_id}`)
                 .then(response => {
                     if (response.data[0]) {
                         this.setState({
@@ -90,7 +91,7 @@ class Restaurant extends Component {
         }
 
         if (restaurant) {
-            resImageSrc = "http://localhost:3001/grubhub/images/restaurant/" + restaurant.res_image;
+            resImageSrc = `${backendServer}/grubhub/images/restaurant/${restaurant.res_image}`;
             resName = restaurant.res_name;
             resAddress = restaurant.res_address;
             resZIP = restaurant.res_zip_code;

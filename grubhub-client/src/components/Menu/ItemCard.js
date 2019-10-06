@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { Card, ListGroup, Button, Col, Row } from "react-bootstrap";
+import { Card, Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import backendServer from "../../webConfig";
+
 class ItemCard extends Component {
   render() {
-    let imageSrc = "http://localhost:3001/grubhub/images/item/" + this.props.menu_item.item_image;
+    let imageSrc = `${backendServer}/grubhub/images/item/${this.props.menu_item.item_image}`;
     return (
       <Card bg="white" style={{ width: "50rem", margin: "2%" }}>
         <Row>

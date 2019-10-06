@@ -3,7 +3,8 @@ import { Redirect } from 'react-router';
 import Navigationbar from '../Navigationbar';
 import axios from 'axios';
 import { Card, Container, Col, Row, Button, Alert } from "react-bootstrap";
-import { BrowserRouter as Router, Link, NavLink, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
+import backendServer from "../../webConfig";
 
 class CustomerOrders extends Component {
     constructor(props) {
@@ -26,7 +27,7 @@ class CustomerOrders extends Component {
             order_id: parseInt(e.target.name)
         };
 
-        axios.post("http://localhost:3001/grubhub/orders/cancelorder", data)
+        axios.post(`${backendServer}/grubhub/orders/cancelorder`, data)
             .then(response => {
                 if (response.data === "ORDER_CANCELLED") {
                     let index = pending_orders.findIndex(order => order.order_id === data.order_id);
@@ -45,7 +46,7 @@ class CustomerOrders extends Component {
     };
 
     getPendingOrders = () => {
-        axios.get("http://localhost:3001/grubhub/orders/pendingorders/" + localStorage.getItem("user_id"))
+        axios.get(`${backendServer}/grubhub/orders/pendingorders/${localStorage.getItem("user_id")}`)
             .then(response => {
                 if (response.data[0]) {
                     this.setState({

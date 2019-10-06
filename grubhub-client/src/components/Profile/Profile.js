@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import '../../App.css';
-import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import Navigationbar from '../Navigationbar';
 import CustomerProfile from './CustomerProfile';
 import OwnerProfile from './OwnerProfile';
-import { Container, Row, Col } from 'react-bootstrap';
 
 class Profile extends Component {
     componentWillMount(){

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import { Button, Alert, Container, Table, Form, Card, ListGroup, ListGroupItem} from "react-bootstrap";
+import backendServer from "../../webConfig"
+import { Button, Alert, Container, Table, Card, ListGroup, ListGroupItem} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Navigationbar from '../Navigationbar.js';
 import axios from 'axios';
@@ -26,14 +27,13 @@ class Cart extends Component {
                 cart_items: cartItems
             });
         }
-
     };
 
     getRestaurantDetails = () => {
         let res_id;
         if (localStorage.getItem("cart_res_id")) {
             res_id = localStorage.getItem("cart_res_id");
-            axios.get("http://localhost:3001/grubhub/restaurant/" + res_id)
+            axios.get(`${backendServer}/grubhub/restaurant/${res_id}`)
                 .then(response => {
                     if (response.data) {
                         this.setState({
@@ -64,7 +64,6 @@ class Cart extends Component {
     removeItem = (e) => {
         let item_id = parseInt(e.target.name);
         let cart_items = this.state.cart_items;
-        let items = [];
         let index = cart_items.findIndex((cart_item => cart_item.item_id === item_id));
         cart_items.splice(index, 1);
         this.setState({
@@ -84,7 +83,6 @@ class Cart extends Component {
             }
         }
         subTotal = subTotal.toFixed(2);
-
         return subTotal;
     };
 
@@ -99,12 +97,7 @@ class Cart extends Component {
         let redirectVar = null,
             itemsRender = [],
             message = null,
-            resName,
-            resAddress,
-            resZIP,
-            restaurantDetails = null,
-            discountAmount = null,
-            deliveryAmount = null;
+            resName, resAddress, resZIP, restaurantDetails = null, discountAmount = null, deliveryAmount = null;
 
         let discount = 20,
             delivery = 6,
@@ -157,25 +150,16 @@ class Cart extends Component {
             }
             var total = ((subTotal * (100 + tax - discount) / 100) + delivery).toFixed(2);
             for (var i = 0; i < cart_items.length; i++) {
-                let quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-                let quantityOptions = quantity.map(number => {
-                    if (number === cart_items[i].item_quantity) {
-                        return <option selected>{number}</option>;
-                    }
-                    return <option>{number}</option>;
-                });
                 let item = (
                     <tr>
                         <td align="center">{cart_items[i].item_name}</td>
                         <td align="center">$ {cart_items[i].item_price}</td>
                         <td align="center">
-                            <Form.Control as="select" style={{ width: "30%" }} name={cart_items[i].item_id} onChange={this.onQuantityChange}>
-                                {quantityOptions}
-                            </Form.Control>
+                            <input type="number" name={cart_items[i].item_id} min="1" max="10" width="10%" onChange={this.onQuantityChange} defaultValue={cart_items[i].item_quantity}></input>
                         </td>
                         <td align="center">
                             <Button variant="link" name={cart_items[i].item_id}>
-                                <img src={deleteIcon} width="15" name={cart_items[i].item_id} onClick={this.removeItem} />
+                                <img src={deleteIcon} width="15" name={cart_items[i].item_id} onClick={this.removeItem} alt="" />
                             </Button>
                         </td>
                         <td align="center">$ {cart_items[i].item_price * cart_items[i].item_quantity}</td>

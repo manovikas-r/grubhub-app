@@ -1,9 +1,10 @@
-import { USER_LOGIN, USER_LOGOUT } from './types';
-import axios from 'axios';
+import { USER_LOGIN, USER_LOGOUT } from "./types";
+import backendServer from "../webConfig"
+import axios from "axios";
 
 export const userLogin = (loginData) => dispatch => {
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/grubhub/login', loginData)
+    axios.post(`${backendServer}/grubhub/login`, loginData)
         .then(response => dispatch({
             type: USER_LOGIN,
             payload: response.data
