@@ -197,7 +197,7 @@ class OwnerProfile extends Component {
                                             type="text"
                                             onChange={this.onChange}
                                             value={this.state.res_cuisine}
-                                            pattern="^[A-Z ]+$"
+                                            pattern="^[A-Za-z ]+$"
                                             required={true} />
                                     </Form.Group>
                                 </Form.Row>
